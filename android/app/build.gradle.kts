@@ -12,21 +12,27 @@ android {
         applicationId = "com.bluemoor.learn"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0.0-test"
+        versionCode = 2
+        versionName = "1.0.1-secure"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // No unnecessary metadata in the APK
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            isDebuggable = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
         debug {
             isMinifyEnabled = false
+            isDebuggable = true
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
         }
@@ -41,10 +47,15 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "META-INF/DEPENDENCIES"
+            excludes += "META-INF/LICENSE*"
+            excludes += "META-INF/NOTICE*"
+            excludes += "META-INF/*.kotlin_module"
         }
     }
 }
@@ -67,7 +78,8 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.foundation:foundation")
 
-    implementation("androidx.datastore:datastore-preferences:1.1.1")
+    // Keystore-backed AES-256 encrypted preferences
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
 
     debugImplementation("androidx.compose.ui:ui-tooling")
 }

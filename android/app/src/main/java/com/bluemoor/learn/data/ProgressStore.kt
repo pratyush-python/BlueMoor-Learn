@@ -1,51 +1,38 @@
 package com.bluemoor.learn.data
 
 import android.content.Context
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import android.content.SharedPreferences
+import com.bluemoor.learn.security.SecureStorage
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.withContext
+import org.json.JSONArray
 import org.json.JSONObject
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-private val Context.dataStore by preferencesDataStore("bluemoor_progress")
+/**
+ * Progress persisted only via [SecureStorage] (Keystore-backed AES-256).
+ * No network I/O — all data stays on-device.
+ */
+class ProgressStore(context: Context) {
 
-class ProgressStore(private val context: Context) {
+    private val appContext = context.applicationContext
+    private val prefs: SharedPreferences = SecureStorage.encryptedPreferences(appContext)
 
-    private val xpKey = intPreferencesKey("total_xp")
-    private val streakKey = intPreferencesKey("current_streak")
-    private val longestKey = intPreferencesKey("longest_streak")
-    private val lastDayKey = stringPreferencesKey("last_streak_day")
-    private val depthsKey = stringPreferencesKey("completed_depths_json")
-    private val quizKey = stringPreferencesKey("quiz_scores_json")
-    private val onboardedKey = booleanPreferencesKey("has_onboarded")
-    private val depthPrefKey = stringPreferencesKey("preferred_depth")
+    private val _progress = MutableStateFlow(load())
+    val progressFlow: StateFlow<UserProgress> = _progress.asStateFlow()
 
-    val progressFlow: Flow<UserProgress> = context.dataStore.data.map { prefs ->
-        val depthsJson = prefs[depthsKey] ?: "{}"
-        val quizJson = prefs[quizKey] ?: "{}"
-        UserProgress(
-            totalXp = prefs[xpKey] ?: 0,
-            currentStreak = prefs[streakKey] ?: 0,
-            longestStreak = prefs[longestKey] ?: 0,
-            lastStreakDay = prefs[lastDayKey],
-            completedDepths = parseDepths(depthsJson),
-            bestQuizScores = parseQuiz(quizJson),
-            hasOnboarded = prefs[onboardedKey] ?: false,
-            preferredDepth = runCatching {
-                LessonDepth.valueOf(prefs[depthPrefKey] ?: LessonDepth.STANDARD.name)
-            }.getOrDefault(LessonDepth.STANDARD),
-        )
+    init {
+        SecureStorage.wipeLegacyPlainStores(appContext)
     }
 
     suspend fun completeOnboarding(preferred: LessonDepth) {
-        context.dataStore.edit { prefs ->
-            prefs[onboardedKey] = true
-            prefs[depthPrefKey] = preferred.name
+        write {
+            putBoolean(KEY_ONBOARDED, true)
+            putString(KEY_DEPTH_PREF, preferred.name)
         }
     }
 
@@ -68,12 +55,12 @@ class ProgressStore(private val context: Context) {
         }
         if (streak > longest) longest = streak
 
-        context.dataStore.edit { prefs ->
-            prefs[xpKey] = current.totalXp + xp
-            prefs[streakKey] = streak
-            prefs[longestKey] = longest
-            prefs[lastDayKey] = today
-            prefs[depthsKey] = depthsToJson(depths)
+        write {
+            putInt(KEY_XP, current.totalXp + xp)
+            putInt(KEY_STREAK, streak)
+            putInt(KEY_LONGEST, longest)
+            putString(KEY_LAST_DAY, today)
+            putString(KEY_DEPTHS, depthsToJson(depths))
         }
         return xp
     }
@@ -82,11 +69,46 @@ class ProgressStore(private val context: Context) {
         val scores = current.bestQuizScores.toMutableMap()
         val prev = scores[lessonId] ?: 0f
         scores[lessonId] = maxOf(prev, score)
-        var bonus = 0
-        if (score >= 0.8f) bonus = (15 * score).toInt()
-        context.dataStore.edit { prefs ->
-            prefs[quizKey] = quizToJson(scores)
-            if (bonus > 0) prefs[xpKey] = current.totalXp + bonus
+        val bonus = if (score >= 0.8f) (15 * score).toInt() else 0
+        write {
+            putString(KEY_QUIZ, quizToJson(scores))
+            if (bonus > 0) putInt(KEY_XP, current.totalXp + bonus)
+        }
+    }
+
+    private suspend fun write(block: SharedPreferences.Editor.() -> Unit) {
+        withContext(Dispatchers.IO) {
+            val editor = prefs.edit()
+            editor.block()
+            // commit() is synchronous so UI state matches encrypted disk state
+            if (editor.commit()) {
+                _progress.value = load()
+            }
+        }
+    }
+
+    private fun load(): UserProgress {
+        return try {
+            val depthsJson = prefs.getString(KEY_DEPTHS, "{}") ?: "{}"
+            val quizJson = prefs.getString(KEY_QUIZ, "{}") ?: "{}"
+            UserProgress(
+                totalXp = prefs.getInt(KEY_XP, 0),
+                currentStreak = prefs.getInt(KEY_STREAK, 0),
+                longestStreak = prefs.getInt(KEY_LONGEST, 0),
+                lastStreakDay = prefs.getString(KEY_LAST_DAY, null),
+                completedDepths = parseDepths(depthsJson),
+                bestQuizScores = parseQuiz(quizJson),
+                hasOnboarded = prefs.getBoolean(KEY_ONBOARDED, false),
+                preferredDepth = runCatching {
+                    LessonDepth.valueOf(
+                        prefs.getString(KEY_DEPTH_PREF, LessonDepth.STANDARD.name)
+                            ?: LessonDepth.STANDARD.name,
+                    )
+                }.getOrDefault(LessonDepth.STANDARD),
+            )
+        } catch (_: Exception) {
+            // Corrupted ciphertext or Keystore unavailable
+            UserProgress()
         }
     }
 
@@ -104,9 +126,7 @@ class ProgressStore(private val context: Context) {
 
     private fun depthsToJson(map: Map<String, Set<String>>): String {
         val obj = JSONObject()
-        map.forEach { (k, v) ->
-            obj.put(k, org.json.JSONArray(v.toList()))
-        }
+        map.forEach { (k, v) -> obj.put(k, JSONArray(v.toList())) }
         return obj.toString()
     }
 
@@ -123,5 +143,16 @@ class ProgressStore(private val context: Context) {
         val obj = JSONObject()
         map.forEach { (k, v) -> obj.put(k, v.toDouble()) }
         return obj.toString()
+    }
+
+    companion object {
+        private const val KEY_XP = "total_xp"
+        private const val KEY_STREAK = "current_streak"
+        private const val KEY_LONGEST = "longest_streak"
+        private const val KEY_LAST_DAY = "last_streak_day"
+        private const val KEY_DEPTHS = "completed_depths_json"
+        private const val KEY_QUIZ = "quiz_scores_json"
+        private const val KEY_ONBOARDED = "has_onboarded"
+        private const val KEY_DEPTH_PREF = "preferred_depth"
     }
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Network security: cleartext (HTTP) is fully blocked.
+  Only system CA certificates are trusted — user-installed CAs
+  (common for MITM proxy tools) are not accepted.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>
