@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -16,7 +17,6 @@ import androidx.compose.ui.Modifier
 import com.bluemoor.learn.data.ContentRepository
 import com.bluemoor.learn.data.Lesson
 import com.bluemoor.learn.data.ProgressStore
-import com.bluemoor.learn.data.UserProgress
 import com.bluemoor.learn.ui.screens.LessonDetailScreen
 import com.bluemoor.learn.ui.screens.MainShell
 import com.bluemoor.learn.ui.screens.OnboardingScreen
@@ -29,13 +29,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        // Block screenshots / screen recording of in-app learning & progress UI.
-        // Remove this line later if you want users to capture lesson notes.
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_SECURE,
-            WindowManager.LayoutParams.FLAG_SECURE,
-        )
-
         val store = ProgressStore(applicationContext)
 
         setContent {
@@ -44,6 +37,15 @@ class MainActivity : ComponentActivity() {
                     val progress by store.progressFlow.collectAsState()
                     var selectedLesson by remember { mutableStateOf<Lesson?>(null) }
                     var showQuiz by remember { mutableStateOf(false) }
+
+                    // Screenshots OK on lessons/home; blocked only while a quiz is open.
+                    SideEffect {
+                        if (showQuiz) {
+                            window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+                        } else {
+                            window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+                        }
+                    }
 
                     when {
                         !progress.hasOnboarded -> {

@@ -2,6 +2,7 @@
 .gradle/
 /local.properties
 /keystore.properties
+/signing/
 /.idea/
 .DS_Store
 /build/
@@ -14,3 +15,4 @@
 *.aab
 *.jks
 *.keystore
+*.idsig
