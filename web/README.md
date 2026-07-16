@@ -7,6 +7,10 @@ This is the **shareable iPhone test build**. Open it in **Safari** — no App St
 Apple does **not** allow installing a random app package from WhatsApp the way Android allows an APK.  
 For friends to try the product today, use this **web app link**.
 
+## Live link (send this on WhatsApp)
+
+**https://pratyush-python.github.io/BlueMoor-Learn/**
+
 ## For testers (iPhone)
 
 1. Open the link in **Safari** (not Chrome if possible).
