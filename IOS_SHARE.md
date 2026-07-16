@@ -14,7 +14,7 @@
 
 ## Option A — Web app (use this for friends today)
 
-1. Open the GitHub Pages URL (see repo after deploy) **or** host `web/`.
+1. Open **https://pratyush-python.github.io/BlueMoor-Learn/** (or host `web/` yourself).
 2. WhatsApp the **https link**.
 3. Tester opens in Safari → learns → optional “Add to Home Screen”.
 
