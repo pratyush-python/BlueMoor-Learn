@@ -92,6 +92,7 @@ struct Lesson: Codable, Identifiable, Hashable {
     }
     
     init(
+        id: UUID? = nil,
         title: String,
         category: LessonCategory,
         subtitle: String,
@@ -106,7 +107,8 @@ struct Lesson: Codable, Identifiable, Hashable {
         quiz: [QuizQuestion],
         heroImageName: String? = nil
     ) {
-        self.id = UUID()
+        // Prefer stable IDs from ContentService so progress survives relaunches.
+        self.id = id ?? UUID()
         self.title = title
         self.category = category
         self.subtitle = subtitle
@@ -126,8 +128,30 @@ struct Lesson: Codable, Identifiable, Hashable {
 // MARK: - Sample Data Loader Helper (for Previews & Testing)
 
 extension Lesson {
+    /// Deterministic UUID so sample lessons keep stable identity across launches.
+    static func stableId(_ key: String) -> UUID {
+        var hasher = Hasher()
+        hasher.combine("bluemoor.lesson.")
+        hasher.combine(key)
+        let h = UInt64(bitPattern: Int64(hasher.finalize()))
+        var bytes = [UInt8](repeating: 0, count: 16)
+        for i in 0..<8 {
+            bytes[i] = UInt8((h >> (8 * i)) & 0xff)
+            bytes[i + 8] = UInt8((h >> (8 * (7 - i))) & 0xff)
+        }
+        bytes[6] = (bytes[6] & 0x0f) | 0x40
+        bytes[8] = (bytes[8] & 0x3f) | 0x80
+        return UUID(uuid: (
+            bytes[0], bytes[1], bytes[2], bytes[3],
+            bytes[4], bytes[5], bytes[6], bytes[7],
+            bytes[8], bytes[9], bytes[10], bytes[11],
+            bytes[12], bytes[13], bytes[14], bytes[15]
+        ))
+    }
+
     static var sampleHistoryRoman: Lesson {
         Lesson(
+            id: Lesson.stableId("roman-republic"),
             title: "The Roman Republic",
             category: .history,
             subtitle: "From Kingdom to Republic — The Birth of Roman Liberty",
@@ -201,6 +225,7 @@ extension Lesson {
     
     static var sampleCosmosSolar: Lesson {
         Lesson(
+            id: Lesson.stableId("solar-system"),
             title: "Our Solar System",
             category: .cosmos,
             subtitle: "Eight Worlds, One Star, Countless Stories",
