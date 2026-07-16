@@ -23,7 +23,7 @@ struct QuizView: View {
                     .font(.title3.weight(.semibold))
                 Spacer()
                 Text("\(currentQuestionIndex + 1) / \(lesson.quiz.count)")
-                    .foregroundStyle(AetheriusTheme.textSecondary)
+                    .foregroundStyle(BlueMoorTheme.textSecondary)
             }
             .padding(24)
             .background(.ultraThinMaterial)
@@ -35,7 +35,7 @@ struct QuizView: View {
             }
         }
         .frame(width: 620, height: 520)
-        .background(AetheriusTheme.background)
+        .background(BlueMoorTheme.background)
     }
     
     private var questionContent: some View {
@@ -58,7 +58,7 @@ struct QuizView: View {
                             if showExplanation {
                                 if index == currentQuestion.correctAnswerIndex {
                                     Image(systemName: "checkmark.circle.fill")
-                                        .foregroundStyle(AetheriusTheme.success)
+                                        .foregroundStyle(BlueMoorTheme.success)
                                 } else if index == selectedAnswer {
                                     Image(systemName: "xmark.circle.fill")
                                         .foregroundStyle(.red)
@@ -79,12 +79,12 @@ struct QuizView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Explanation")
                         .font(.headline)
-                        .foregroundStyle(AetheriusTheme.cosmosCyan)
+                        .foregroundStyle(BlueMoorTheme.cosmosCyan)
                     Text(currentQuestion.explanation)
-                        .foregroundStyle(AetheriusTheme.textSecondary)
+                        .foregroundStyle(BlueMoorTheme.textSecondary)
                 }
                 .padding(20)
-                .background(AetheriusTheme.surfaceElevated)
+                .background(BlueMoorTheme.surfaceElevated)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 
                 Button {
@@ -119,15 +119,15 @@ struct QuizView: View {
     
     private func backgroundForOption(at index: Int) -> Color {
         if !showExplanation {
-            return selectedAnswer == index ? AetheriusTheme.surfaceElevated : AetheriusTheme.surface
+            return selectedAnswer == index ? BlueMoorTheme.surfaceElevated : BlueMoorTheme.surface
         }
         
         if index == currentQuestion.correctAnswerIndex {
-            return AetheriusTheme.success.opacity(0.2)
+            return BlueMoorTheme.success.opacity(0.2)
         } else if index == selectedAnswer {
             return Color.red.opacity(0.2)
         } else {
-            return AetheriusTheme.surface
+            return BlueMoorTheme.surface
         }
     }
     
@@ -172,7 +172,7 @@ struct QuizView: View {
             
             Image(systemName: score >= 0.8 ? "star.fill" : "checkmark.circle.fill")
                 .font(.system(size: 72))
-                .foregroundStyle(score >= 0.8 ? AetheriusTheme.warning : AetheriusTheme.success)
+                .foregroundStyle(score >= 0.8 ? BlueMoorTheme.warning : BlueMoorTheme.success)
             
             Text("Quiz Complete")
                 .font(.largeTitle.weight(.semibold))
@@ -183,7 +183,7 @@ struct QuizView: View {
             
             Text(performanceMessage)
                 .font(.title3)
-                .foregroundStyle(AetheriusTheme.textSecondary)
+                .foregroundStyle(BlueMoorTheme.textSecondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
             

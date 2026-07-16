@@ -18,7 +18,7 @@ struct CosmosView: View {
             }
             .padding(40)
         }
-        .background(AetheriusTheme.background)
+        .background(BlueMoorTheme.background)
         .navigationTitle("Cosmos")
     }
 }

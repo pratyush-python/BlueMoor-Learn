@@ -82,7 +82,7 @@ struct LessonView: View {
                 .padding(.vertical, 32)
             }
         }
-        .background(AetheriusTheme.background)
+        .background(BlueMoorTheme.background)
         .sheet(isPresented: $showQuiz) {
             QuizView(lesson: lesson) { score in
                 // Record quiz result
@@ -108,7 +108,7 @@ struct LessonView: View {
                 
                 Text(lesson.eraOrTopic)
                     .font(.subheadline)
-                    .foregroundStyle(AetheriusTheme.textSecondary)
+                    .foregroundStyle(BlueMoorTheme.textSecondary)
             }
             
             Text(lesson.title)
@@ -117,7 +117,7 @@ struct LessonView: View {
             
             Text(lesson.subtitle)
                 .font(.title3)
-                .foregroundStyle(AetheriusTheme.textSecondary)
+                .foregroundStyle(BlueMoorTheme.textSecondary)
         }
     }
     
@@ -132,13 +132,13 @@ struct LessonView: View {
                 
                 Label("\(currentDepth.estimatedMinutes) min", systemImage: "clock")
                     .font(.caption)
-                    .foregroundStyle(AetheriusTheme.textTertiary)
+                    .foregroundStyle(BlueMoorTheme.textTertiary)
             }
             
             Text(currentContent)
                 .font(.body)
                 .lineSpacing(8)
-                .foregroundStyle(AetheriusTheme.textPrimary)
+                .foregroundStyle(BlueMoorTheme.textPrimary)
                 .textSelection(.enabled)
             
             // "Go Deeper" prompt
@@ -162,8 +162,8 @@ struct LessonView: View {
             }
         }
         .padding(28)
-        .background(AetheriusTheme.surface)
-        .clipShape(RoundedRectangle(cornerRadius: AetheriusTheme.cardCornerRadius))
+        .background(BlueMoorTheme.surface)
+        .clipShape(RoundedRectangle(cornerRadius: BlueMoorTheme.cardCornerRadius))
     }
     
     private var currentContent: String {
@@ -191,7 +191,7 @@ struct LessonView: View {
                             .font(.headline)
                         Text(event.description)
                             .font(.callout)
-                            .foregroundStyle(AetheriusTheme.textSecondary)
+                            .foregroundStyle(BlueMoorTheme.textSecondary)
                     }
                     Spacer()
                 }
@@ -199,8 +199,8 @@ struct LessonView: View {
             }
         }
         .padding(28)
-        .background(AetheriusTheme.surface)
-        .clipShape(RoundedRectangle(cornerRadius: AetheriusTheme.cardCornerRadius))
+        .background(BlueMoorTheme.surface)
+        .clipShape(RoundedRectangle(cornerRadius: BlueMoorTheme.cardCornerRadius))
     }
     
     private var keyFiguresSection: some View {
@@ -219,16 +219,16 @@ struct LessonView: View {
                             .foregroundStyle(lesson.category.accentColor)
                         Text(figure.shortBio)
                             .font(.callout)
-                            .foregroundStyle(AetheriusTheme.textSecondary)
+                            .foregroundStyle(BlueMoorTheme.textSecondary)
                             .lineLimit(3)
                         
                         Text(figure.significance)
                             .font(.caption)
-                            .foregroundStyle(AetheriusTheme.textTertiary)
+                            .foregroundStyle(BlueMoorTheme.textTertiary)
                             .padding(.top, 4)
                     }
                     .padding(18)
-                    .background(AetheriusTheme.surfaceElevated)
+                    .background(BlueMoorTheme.surfaceElevated)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
             }
@@ -239,7 +239,7 @@ struct LessonView: View {
         VStack(spacing: 12) {
             if hasCompletedCurrentDepth {
                 Label("Depth Completed • +\(currentDepth.xpReward) XP", systemImage: "checkmark.circle.fill")
-                    .foregroundStyle(AetheriusTheme.success)
+                    .foregroundStyle(BlueMoorTheme.success)
                     .font(.headline)
             } else {
                 Button {
@@ -256,7 +256,7 @@ struct LessonView: View {
             
             Text("Complete all depths and the quiz to fully master this lesson.")
                 .font(.caption)
-                .foregroundStyle(AetheriusTheme.textTertiary)
+                .foregroundStyle(BlueMoorTheme.textTertiary)
         }
         .padding(.top, 20)
     }

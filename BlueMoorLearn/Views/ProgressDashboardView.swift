@@ -17,9 +17,9 @@ struct ProgressDashboardView: View {
                 
                 // Big stats
                 HStack(spacing: 24) {
-                    statCard(title: "Total XP", value: "\(profile.totalXP)", icon: "star.fill", color: AetheriusTheme.warning)
-                    statCard(title: "Current Level", value: "\(profile.level)", icon: "medal.fill", color: AetheriusTheme.cosmosCyan)
-                    statCard(title: "Longest Streak", value: "\(profile.longestStreak)", icon: "flame.fill", color: AetheriusTheme.historyGold)
+                    statCard(title: "Total XP", value: "\(profile.totalXP)", icon: "star.fill", color: BlueMoorTheme.warning)
+                    statCard(title: "Current Level", value: "\(profile.level)", icon: "medal.fill", color: BlueMoorTheme.cosmosCyan)
+                    statCard(title: "Longest Streak", value: "\(profile.longestStreak)", icon: "flame.fill", color: BlueMoorTheme.historyGold)
                 }
                 
                 // Mastery section
@@ -29,7 +29,7 @@ struct ProgressDashboardView: View {
                     
                     if allProgress.isEmpty {
                         Text("Complete lessons to see your mastery heatmap and progress here.")
-                            .foregroundStyle(AetheriusTheme.textSecondary)
+                            .foregroundStyle(BlueMoorTheme.textSecondary)
                     } else {
                         ForEach(allProgress) { progress in
                             HStack {
@@ -44,12 +44,12 @@ struct ProgressDashboardView: View {
                     }
                 }
                 .padding(24)
-                .background(AetheriusTheme.surface)
-                .clipShape(RoundedRectangle(cornerRadius: AetheriusTheme.cardCornerRadius))
+                .background(BlueMoorTheme.surface)
+                .clipShape(RoundedRectangle(cornerRadius: BlueMoorTheme.cardCornerRadius))
             }
             .padding(40)
         }
-        .background(AetheriusTheme.background)
+        .background(BlueMoorTheme.background)
     }
     
     private func statCard(title: String, value: String, icon: String, color: Color) -> some View {
@@ -64,7 +64,7 @@ struct ProgressDashboardView: View {
         }
         .padding(24)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(AetheriusTheme.surface)
-        .clipShape(RoundedRectangle(cornerRadius: AetheriusTheme.cardCornerRadius))
+        .background(BlueMoorTheme.surface)
+        .clipShape(RoundedRectangle(cornerRadius: BlueMoorTheme.cardCornerRadius))
     }
 }

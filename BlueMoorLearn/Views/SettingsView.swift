@@ -53,7 +53,7 @@ struct SettingsView: View {
                 
                 Link("Send Feedback", destination: URL(string: "https://example.com")!)
             } header: {
-                Text("About Aetherius")
+                Text("About Blue Moor - Learn")
             }
         }
         .formStyle(.grouped)

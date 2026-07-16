@@ -3,7 +3,7 @@ import SwiftData
 import AppKit
 
 @main
-struct AetheriusApp: App {
+struct BlueMoorLearnApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             UserProfile.self,
@@ -79,7 +79,7 @@ struct AetheriusApp: App {
             
             // Help
             CommandGroup(replacing: .help) {
-                Button("Aetherius Help") {
+                Button("Blue Moor - Learn Help") {
                     // Open help or about
                 }
             }
@@ -129,7 +129,7 @@ struct MainTabView: View {
                 }
             }
             .listStyle(.sidebar)
-            .navigationTitle("Aetherius")
+            .navigationTitle("Blue Moor - Learn")
             .frame(minWidth: 220)
         } detail: {
             // Detail content based on selection

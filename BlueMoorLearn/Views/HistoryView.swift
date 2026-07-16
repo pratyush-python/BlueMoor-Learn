@@ -18,7 +18,7 @@ struct HistoryView: View {
             }
             .padding(40)
         }
-        .background(AetheriusTheme.background)
+        .background(BlueMoorTheme.background)
         .navigationTitle("History")
     }
 }

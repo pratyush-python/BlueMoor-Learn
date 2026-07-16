@@ -1,31 +1,33 @@
-# Aetherius
+# Blue Moor - Learn
 
 **History. Cosmos. Mastery.**
 
-A native **macOS** learning app (SwiftUI + SwiftData) that gamifies journeys through human history and the cosmos — with a dark, contemplative aesthetic, streaks/XP, adaptive lesson depth, and quizzes.
+A native **macOS** learning app (SwiftUI + SwiftData) from **Blue Moor** that gamifies journeys through human history and the cosmos — dark-mode-first UI, streaks/XP, adaptive lesson depth, and quizzes.
+
+> **Blue Moor - Learn** is a research/education product. Blue Moor is not SEBI-registered; this app is not financial advice.
 
 ## Requirements
 
 - macOS 14+
-- Xcode 16+ (Swift 5 / SwiftData)
+- Xcode 16+
 
 ## Open & run
 
-1. Open `Aetherius.xcodeproj` in Xcode  
-2. Scheme: **Aetherius** · Destination: **My Mac**  
+1. Open `BlueMoorLearn.xcodeproj` in Xcode  
+2. Scheme: **BlueMoorLearn** · Destination: **My Mac**  
 3. Press **⌘R**
 
 ```bash
 export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer
-cd /path/to/Aetherius
-xcodebuild -project Aetherius.xcodeproj -scheme Aetherius -destination 'platform=macOS' build
+cd /path/to/BlueMoorLearn
+xcodebuild -project BlueMoorLearn.xcodeproj -scheme BlueMoorLearn -destination 'platform=macOS' build
 ```
 
-## Project layout
+## Layout
 
 ```
-Aetherius/
-├── AetheriusApp.swift       # @main + MainTabView
+BlueMoorLearn/
+├── BlueMoorLearnApp.swift
 ├── Models/
 ├── Views/
 ├── Services/
@@ -34,13 +36,9 @@ Aetherius/
 └── Assets.xcassets
 ```
 
-## v1 features
+## v1
 
-- SwiftUI `NavigationSplitView` (Today / History / Cosmos / Explore / Progress)
-- SwiftData: profile, streaks, XP, lesson progress
+- NavigationSplitView: Today / History / Cosmos / Explore / Progress
+- SwiftData profile, streaks, XP, lesson progress
 - Sample History + Cosmos lessons (Overview / Standard / Deep)
-- Quizzes, onboarding, dark-mode-first theme
-
-## License
-
-Personal / educational project.
+- Quizzes + onboarding
