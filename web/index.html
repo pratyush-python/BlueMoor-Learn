@@ -7,20 +7,836 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Blue Moor" />
-  <meta name="description" content="Blue Moor - Learn: History & Cosmos lessons. Educational only. Not SEBI-registered." />
-  <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="apple-touch-icon" href="icon-180.png" />
+  <meta name="description" content="Blue Moor - Learn: History & Cosmos. Educational only." />
   <title>Blue Moor - Learn</title>
-  <link rel="stylesheet" href="styles.css" />
+  <style>
+:root {
+  --bg: #0a0e1a;
+  --surface: #121826;
+  --elevated: #1a2233;
+  --gold: #c9a26b;
+  --cyan: #5ce1e6;
+  --text: #ffffff;
+  --muted: #a0aec0;
+  --dim: #64748b;
+  --success: #34d399;
+  --warn: #fbbf24;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --nav-h: 64px;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body {
+  margin: 0; padding: 0; background: var(--bg); color: var(--text);
+  min-height: 100%; min-height: 100dvh;
+}
+body { overscroll-behavior-y: none; }
+button, input { font: inherit; }
+button {
+  border: none; cursor: pointer; border-radius: 12px;
+  padding: 14px 18px; font-weight: 600;
+}
+.btn-primary { background: var(--cyan); color: var(--bg); width: 100%; }
+.btn-secondary { background: var(--elevated); color: var(--cyan); width: 100%; }
+.btn-chip {
+  background: var(--surface); color: var(--muted); padding: 10px 14px;
+  border-radius: 999px; border: 1px solid transparent;
+}
+.btn-chip.active { background: var(--elevated); color: var(--cyan); border-color: var(--cyan); }
+
+#app { min-height: 100dvh; display: flex; flex-direction: column; }
+
+.screen {
+  flex: 1;
+  padding: calc(16px + var(--safe-top)) 20px calc(var(--nav-h) + 20px + var(--safe-bottom));
+  max-width: 560px; margin: 0 auto; width: 100%;
+}
+.screen.full-pad { padding-bottom: calc(24px + var(--safe-bottom)); }
+
+.brand { color: var(--cyan); font-size: 13px; font-weight: 600; letter-spacing: 0.02em; }
+.h1 { font-size: 28px; font-weight: 700; margin: 6px 0 8px; line-height: 1.15; }
+.h2 { font-size: 20px; font-weight: 650; margin: 20px 0 12px; }
+.muted { color: var(--muted); font-size: 15px; line-height: 1.45; }
+.dim { color: var(--dim); font-size: 12px; }
+.gold { color: var(--gold); }
+.cyan { color: var(--cyan); }
+
+.card {
+  background: var(--surface); border-radius: 16px; padding: 16px;
+  margin-bottom: 12px;
+}
+.card.clickable { cursor: pointer; transition: transform 0.12s ease; }
+.card.clickable:active { transform: scale(0.98); }
+.card-hero {
+  height: 72px; border-radius: 12px; margin: -16px -16px 12px;
+  display: flex; align-items: flex-end; padding: 12px 16px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+}
+.card-hero.history { background: linear-gradient(90deg, rgba(201,162,107,0.4), transparent); color: var(--gold); }
+.card-hero.cosmos { background: linear-gradient(90deg, rgba(92,225,230,0.35), transparent); color: var(--cyan); }
+
+.row { display: flex; gap: 12px; align-items: center; }
+.row.wrap { flex-wrap: wrap; }
+.grow { flex: 1; min-width: 0; }
+.gap8 { gap: 8px; }
+.mt8 { margin-top: 8px; }
+.mt12 { margin-top: 12px; }
+.mt16 { margin-top: 16px; }
+.mt24 { margin-top: 24px; }
+.mb0 { margin-bottom: 0; }
+
+.stat-circle {
+  width: 88px; height: 88px; border-radius: 50%;
+  background: var(--elevated); display: flex; flex-direction: column;
+  align-items: center; justify-content: center; flex-shrink: 0;
+}
+.stat-circle strong { font-size: 28px; line-height: 1; }
+.stat-circle span { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+.progress-bar {
+  height: 8px; background: var(--elevated); border-radius: 8px; overflow: hidden;
+}
+.progress-bar > i {
+  display: block; height: 100%; background: var(--cyan); border-radius: 8px;
+  width: 0%; transition: width 0.3s ease;
+}
+
+.bottom-nav {
+  position: fixed; left: 0; right: 0; bottom: 0;
+  height: calc(var(--nav-h) + var(--safe-bottom));
+  padding-bottom: var(--safe-bottom);
+  background: rgba(18, 24, 38, 0.96);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid #1f2937;
+  display: flex; justify-content: space-around; align-items: stretch;
+  max-width: 560px; margin: 0 auto; z-index: 40;
+}
+.bottom-nav button {
+  flex: 1; background: transparent; color: var(--dim);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 2px; font-size: 11px; font-weight: 600; padding: 8px 4px; border-radius: 0;
+}
+.bottom-nav button.active { color: var(--cyan); }
+.bottom-nav .ico { font-size: 18px; line-height: 1; }
+
+.topbar {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+}
+.topbar button.back {
+  background: transparent; color: var(--text); padding: 8px 10px 8px 0; font-size: 22px;
+}
+.topbar h1 { font-size: 17px; font-weight: 600; margin: 0; flex: 1;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.lesson-body { white-space: pre-wrap; font-size: 15px; line-height: 1.55; color: #e8eef7; }
+.timeline-item { margin-top: 12px; }
+.timeline-item .y { color: var(--gold); font-weight: 600; }
+.timeline-item .d { color: var(--muted); font-size: 13px; margin-top: 2px; }
+
+.quiz-opt {
+  background: var(--surface); border-radius: 12px; padding: 14px 16px;
+  margin: 8px 0; cursor: pointer; border: 1px solid transparent;
+  display: flex; align-items: center; gap: 10px;
+}
+.quiz-opt.correct { background: rgba(52, 211, 153, 0.2); border-color: var(--success); }
+.quiz-opt.wrong { background: rgba(239, 68, 68, 0.12); }
+.quiz-opt.disabled { pointer-events: none; }
+
+.onboard { display: flex; flex-direction: column; justify-content: center; min-height: 80dvh; }
+.disclaimer { color: var(--dim); font-size: 12px; margin-top: 16px; line-height: 1.4; }
+
+.hidden { display: none !important; }
+.toast {
+  position: fixed; left: 50%; bottom: calc(var(--nav-h) + 24px + var(--safe-bottom));
+  transform: translateX(-50%); background: var(--elevated); color: var(--success);
+  padding: 10px 16px; border-radius: 999px; font-size: 14px; font-weight: 600;
+  z-index: 50; box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+}
+
+  /* fallback while loading */
+  #boot {
+    min-height: 100dvh; display:flex; flex-direction:column; justify-content:center;
+    align-items:center; padding:32px; text-align:center; color:#a0aec0;
+  }
+  #boot strong { color:#5ce1e6; font-size:22px; display:block; margin-bottom:8px; }
+  </style>
 </head>
 <body>
-  <div id="app"></div>
-  <script src="content.js"></script>
-  <script src="app.js"></script>
+  <div id="app">
+    <div id="boot">
+      <strong>Blue Moor - Learn</strong>
+      Loading lessons…
+      <noscript><p style="color:#fbbf24;margin-top:16px">Please enable JavaScript to use this app.</p></noscript>
+    </div>
+  </div>
   <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("./sw.js").catch(() => {});
+/* Shared lesson content (mirrors Android ContentRepository) */
+window.BM_LESSONS = [
+  {
+    id: "roman-republic",
+    title: "The Roman Republic",
+    category: "history",
+    subtitle: "From Kingdom to Republic — The Birth of Roman Liberty",
+    eraOrTopic: "Roman Republic • 509–27 BC",
+    estimatedMinutes: 9,
+    overview:
+      "In 509 BC, the Roman people overthrew their last king and established a republic. This new system of government would shape Western civilization for centuries.\n\nThe Republic was built on the principle that power should be shared and checked, not concentrated in one ruler.",
+    standard:
+      "The Roman Republic was founded after the overthrow of King Tarquinius Superbus. It introduced a complex system of elected magistrates, most notably two consuls who shared executive power and could veto each other.\n\nThe Senate, composed of Rome's wealthiest and most influential citizens, advised the consuls and controlled state finances. Over 400+ years, Rome expanded from a small city-state to the dominant Mediterranean power.",
+    deep:
+      "The Roman Republic's constitution was never written in a single document. It evolved through tradition (mos maiorum), conflict between patricians and plebeians, and pragmatic responses to crises.\n\nKey institutions included the Centuriate Assembly, Tribal Assembly, Plebeian Council, and temporary dictators. The system's checks and balances became a weakness as ambitious generals accumulated power the old institutions could no longer contain.",
+    timeline: [
+      { year: "509 BC", title: "Republic Founded", description: "Tarquin the Proud is expelled; first consuls take office." },
+      { year: "494 BC", title: "First Secession of the Plebs", description: "Creation of the Tribune of the Plebs." },
+      { year: "450 BC", title: "Twelve Tables", description: "Rome's first written law code." },
+      { year: "264–146 BC", title: "Punic Wars", description: "Rome defeats Carthage and dominates the west Mediterranean." },
+      { year: "49 BC", title: "Caesar Crosses the Rubicon", description: "Civil war that ends the Republic." },
+      { year: "27 BC", title: "Augustus", description: "Empire begins." },
+    ],
+    figures: [
+      { name: "Lucius Junius Brutus", role: "Founder & First Consul", bio: "Led the revolt against Tarquin. Symbol of republican virtue." },
+      { name: "Cincinnatus", role: "Model Dictator", bio: "Saved Rome then returned to his farm — ideal of civic duty." },
+      { name: "Julius Caesar", role: "The Man Who Ended It", bio: "Crossed the Rubicon. Dictatorship ends the Republic." },
+    ],
+    quiz: [
+      {
+        q: "In what year was the Roman Republic traditionally founded?",
+        options: ["753 BC", "509 BC", "27 BC", "44 BC"],
+        answer: 1,
+        explain: "509 BC marks the traditional founding of the Republic.",
+      },
+      {
+        q: "The Roman Republic had a single written constitution like the United States.",
+        options: ["True", "False"],
+        answer: 1,
+        explain: "Rome never had one written constitution; it evolved through custom and struggle.",
+      },
+    ],
+  },
+  {
+    id: "ancient-egypt-old-kingdom",
+    title: "Ancient Egypt: The Old Kingdom",
+    category: "history",
+    subtitle: "Pyramids, Pharaohs, and the Dawn of Civilization",
+    eraOrTopic: "Old Kingdom • c. 2686–2181 BC",
+    estimatedMinutes: 8,
+    overview: "The Old Kingdom represents the golden age of pyramid building and the consolidation of pharaonic power in Egypt.",
+    standard:
+      "During the Old Kingdom, Egypt saw the construction of the Great Pyramids of Giza under pharaohs Khufu, Khafre, and Menkaure. The period established cultural and religious foundations that defined ancient Egypt for millennia.",
+    deep:
+      "Centralized administration, bureaucracy, and religious ideology of the pharaoh as living god enabled monumental construction. Collapse after Pepi II's long reign led into the First Intermediate Period.",
+    timeline: [
+      { year: "c. 2686 BC", title: "Old Kingdom Begins", description: "Third Dynasty under Djoser; Step Pyramid at Saqqara." },
+      { year: "c. 2580 BC", title: "Great Pyramid", description: "Khufu builds the largest pyramid." },
+      { year: "c. 2181 BC", title: "Old Kingdom Ends", description: "Central authority collapses." },
+    ],
+    figures: [
+      { name: "Djoser", role: "Pharaoh", bio: "Commissioned the first pyramid complex." },
+      { name: "Imhotep", role: "Architect & Vizier", bio: "Designed the Step Pyramid; later deified." },
+      { name: "Khufu", role: "Builder of the Great Pyramid", bio: "Fourth Dynasty pharaoh." },
+    ],
+    quiz: [
+      {
+        q: "Which pharaoh commissioned the Great Pyramid of Giza?",
+        options: ["Djoser", "Khufu", "Khafre", "Pepi II"],
+        answer: 1,
+        explain: "Khufu (Cheops) built the Great Pyramid.",
+      },
+    ],
+  },
+  {
+    id: "solar-system",
+    title: "Our Solar System",
+    category: "cosmos",
+    subtitle: "Eight Worlds, One Star, Countless Stories",
+    eraOrTopic: "Solar System • Formation & Exploration",
+    estimatedMinutes: 7,
+    overview:
+      "Our solar system formed about 4.6 billion years ago from a collapsing cloud of gas and dust. At its center burns the Sun — holding everything in its gravitational embrace.",
+    standard:
+      "Inner terrestrial planets (Mercury, Venus, Earth, Mars) and outer gas/ice giants (Jupiter, Saturn, Uranus, Neptune). The asteroid belt lies between Mars and Jupiter; beyond Neptune, the Kuiper Belt and Oort Cloud.",
+    deep:
+      "Formed from a protoplanetary disk. Close to the Sun only rock and metal condensed; farther out, ices and gases formed giants. Processes: accretion, differentiation, Late Heavy Bombardment, giant planet migration (Nice model).",
+    timeline: [
+      { year: "~4.6 bya", title: "Solar System Forms", description: "Molecular cloud collapses into Sun + disk." },
+      { year: "1969", title: "Apollo 11", description: "Humans walk on the Moon." },
+      { year: "1977", title: "Voyager Launches", description: "Grand tour of the outer planets begins." },
+      { year: "2015", title: "New Horizons at Pluto", description: "First close-ups of Pluto." },
+    ],
+    figures: [
+      { name: "Copernicus", role: "Heliocentric Revolution", bio: "Put the Sun at the center." },
+      { name: "Galileo", role: "Jupiter's Moons", bio: "Telescope discoveries challenged geocentrism." },
+      { name: "Carl Sagan", role: "Cosmic Communicator", bio: "Made planetary science wonder accessible." },
+    ],
+    quiz: [
+      {
+        q: "Which planet is the most massive in our solar system?",
+        options: ["Saturn", "Neptune", "Jupiter", "Earth"],
+        answer: 2,
+        explain: "Jupiter is by far the most massive planet.",
+      },
+      {
+        q: "Pluto is still classified as one of the eight major planets.",
+        options: ["True", "False"],
+        answer: 1,
+        explain: "In 2006 the IAU reclassified Pluto as a dwarf planet.",
+      },
+    ],
+  },
+  {
+    id: "black-holes",
+    title: "Black Holes: Gravity's Ultimate Triumph",
+    category: "cosmos",
+    subtitle: "Where spacetime ends and our understanding begins",
+    eraOrTopic: "Black Holes • Relativity to EHT",
+    estimatedMinutes: 11,
+    overview:
+      "Black holes are regions of spacetime where gravity is so strong that nothing, not even light, can escape — extreme predictions of Einstein's general relativity.",
+    standard:
+      "Stellar-mass black holes form when massive stars collapse. Supermassive black holes sit at the centers of most galaxies, including the Milky Way.",
+    deep:
+      "The Event Horizon Telescope imaged M87* (2019) and Sagittarius A* (2022). Hawking radiation, the information paradox, and singularities remain active frontiers.",
+    timeline: [
+      { year: "1915", title: "General Relativity", description: "Einstein's field equations." },
+      { year: "1916", title: "Schwarzschild Solution", description: "Non-rotating black hole solution." },
+      { year: "1963", title: "Kerr Solution", description: "Rotating black holes." },
+      { year: "2019", title: "First Image", description: "EHT images M87*'s shadow." },
+    ],
+    figures: [
+      { name: "Einstein", role: "Relativity", bio: "Predicted black holes mathematically." },
+      { name: "Stephen Hawking", role: "Thermodynamics", bio: "Black hole radiation & entropy." },
+      { name: "Ghez & Genzel", role: "Galactic Center", bio: "Stellar orbits prove Sgr A*." },
+    ],
+    quiz: [
+      {
+        q: "Nothing can escape a black hole once past the event horizon, including light.",
+        options: ["True", "False"],
+        answer: 0,
+        explain: "The event horizon is the point of no return.",
+      },
+      {
+        q: "What major breakthrough happened in 2019 regarding black holes?",
+        options: [
+          "First theoretical prediction",
+          "First image of a black hole's shadow",
+          "Discovery of Hawking radiation",
+          "First gravitational-wave detection",
+        ],
+        answer: 1,
+        explain: "EHT released the first image of a black hole shadow (M87*).",
+      },
+    ],
+  },
+];
+
+window.BM_DEPTHS = {
+  OVERVIEW: { key: "OVERVIEW", label: "Overview", minutes: 4, xp: 25 },
+  STANDARD: { key: "STANDARD", label: "Standard", minutes: 8, xp: 60 },
+  DEEP: { key: "DEEP", label: "Deep Dive", minutes: 14, xp: 120 },
+};
+
+(() => {
+  const STORE_KEY = "bluemoor_progress_v1";
+  const $ = (sel, el = document) => el.querySelector(sel);
+  const app = $("#app");
+
+  const defaultProgress = () => ({
+    totalXp: 0,
+    currentStreak: 0,
+    longestStreak: 0,
+    lastStreakDay: null,
+    completedDepths: {},
+    bestQuizScores: {},
+    hasOnboarded: false,
+    preferredDepth: "STANDARD",
+  });
+
+  function loadProgress() {
+    try {
+      return { ...defaultProgress(), ...JSON.parse(localStorage.getItem(STORE_KEY) || "{}") };
+    } catch {
+      return defaultProgress();
     }
+  }
+
+  function saveProgress(p) {
+    localStorage.setItem(STORE_KEY, JSON.stringify(p));
+  }
+
+  function levelOf(xp) {
+    return Math.max(1, Math.floor(Math.sqrt(xp / 80)) + 1);
+  }
+
+  function progressToNext(xp) {
+    const level = levelOf(xp);
+    const cur = level * level * 80;
+    const next = (level + 1) * (level + 1) * 80;
+    const need = Math.max(1, next - cur);
+    return Math.min(1, Math.max(0, (xp - cur) / need));
+  }
+
+  function xpToNext(xp) {
+    const level = levelOf(xp);
+    const next = (level + 1) * (level + 1) * 80;
+    return next - xp;
+  }
+
+  function todayISO() {
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  function yesterdayISO() {
+    const d = new Date();
+    d.setDate(d.getDate() - 1);
+    return d.toISOString().slice(0, 10);
+  }
+
+  function greeting() {
+    const h = new Date().getHours();
+    if (h >= 5 && h < 12) return "Good morning.";
+    if (h >= 12 && h < 17) return "Good afternoon.";
+    return "Good evening.";
+  }
+
+  function contentFor(lesson, depth) {
+    if (depth === "OVERVIEW") return lesson.overview;
+    if (depth === "DEEP") return lesson.deep;
+    return lesson.standard;
+  }
+
+  function recommended(p) {
+    const hit = window.BM_LESSONS.find((l) => {
+      const done = p.completedDepths[l.id] || [];
+      return !done.includes(p.preferredDepth);
+    });
+    return hit || window.BM_LESSONS[0];
+  }
+
+  const state = {
+    progress: loadProgress(),
+    tab: "today",
+    lessonId: null,
+    showQuiz: false,
+    depth: null,
+    quizIndex: 0,
+    selected: null,
+    correctCount: 0,
+    finished: false,
+    toast: null,
+  };
+
+  function setSecure(on) {
+    // Best-effort: discourage capture while quiz open (web has no FLAG_SECURE)
+    document.body.dataset.quiz = on ? "1" : "0";
+  }
+
+  function toast(msg) {
+    state.toast = msg;
+    render();
+    setTimeout(() => {
+      state.toast = null;
+      render();
+    }, 1800);
+  }
+
+  function completeDepth(lessonId, depth) {
+    const p = state.progress;
+    const meta = window.BM_DEPTHS[depth];
+    const depths = { ...p.completedDepths };
+    const set = new Set(depths[lessonId] || []);
+    set.add(depth);
+    depths[lessonId] = [...set];
+
+    let streak = p.currentStreak;
+    let longest = p.longestStreak;
+    const today = todayISO();
+    if (!p.lastStreakDay) streak = 1;
+    else if (p.lastStreakDay === today) {
+      /* same day */
+    } else if (p.lastStreakDay === yesterdayISO()) streak += 1;
+    else streak = 1;
+    if (streak > longest) longest = streak;
+
+    state.progress = {
+      ...p,
+      totalXp: p.totalXp + meta.xp,
+      currentStreak: streak,
+      longestStreak: longest,
+      lastStreakDay: today,
+      completedDepths: depths,
+    };
+    saveProgress(state.progress);
+    toast(`+${meta.xp} XP earned`);
+  }
+
+  function recordQuiz(lessonId, score) {
+    const p = state.progress;
+    const scores = { ...p.bestQuizScores };
+    scores[lessonId] = Math.max(scores[lessonId] || 0, score);
+    let bonus = 0;
+    if (score >= 0.8) bonus = Math.floor(15 * score);
+    state.progress = {
+      ...p,
+      totalXp: p.totalXp + bonus,
+      bestQuizScores: scores,
+    };
+    saveProgress(state.progress);
+  }
+
+  function esc(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function lessonCard(lesson, extra = "") {
+    const cat = lesson.category === "history" ? "history" : "cosmos";
+    const label = cat === "history" ? "HISTORY" : "COSMOS";
+    return `
+      <div class="card clickable" data-open="${esc(lesson.id)}">
+        <div class="card-hero ${cat}">${label}</div>
+        <div style="font-weight:650;font-size:17px">${esc(lesson.title)}</div>
+        <div class="muted" style="font-size:13px;margin-top:2px">${esc(lesson.eraOrTopic)}</div>
+        <div class="dim" style="margin-top:6px">${esc(lesson.subtitle)}</div>
+        ${extra ? `<div class="cyan" style="font-size:12px;margin-top:8px">${esc(extra)}</div>` : ""}
+      </div>`;
+  }
+
+  function navBar() {
+    const items = [
+      ["today", "⌂", "Today"],
+      ["history", "📜", "History"],
+      ["cosmos", "✦", "Cosmos"],
+      ["progress", "▣", "Progress"],
+    ];
+    return `
+      <nav class="bottom-nav">
+        ${items
+          .map(
+            ([id, ico, label]) => `
+          <button type="button" data-tab="${id}" class="${state.tab === id ? "active" : ""}">
+            <span class="ico">${ico}</span>${label}
+          </button>`,
+          )
+          .join("")}
+      </nav>`;
+  }
+
+  function renderOnboarding() {
+    const depths = Object.values(window.BM_DEPTHS);
+    const sel = state.progress.preferredDepth;
+    app.innerHTML = `
+      <div class="screen full-pad onboard">
+        <div class="brand">Blue Moor - Learn</div>
+        <div class="h1">History. Cosmos. Mastery.</div>
+        <p class="muted">Pick a default lesson depth to begin on your iPhone.</p>
+        <div class="mt24 row wrap gap8">
+          ${depths
+            .map(
+              (d) => `
+            <button type="button" class="btn-chip ${sel === d.key ? "active" : ""}" data-depth="${d.key}">
+              ${d.label} · ${d.minutes} min · ${d.xp} XP
+            </button>`,
+            )
+            .join("")}
+        </div>
+        <button type="button" class="btn-primary mt24" id="start-btn">Start learning</button>
+        <p class="disclaimer">Educational content only. Blue Moor is not SEBI-registered.</p>
+      </div>`;
+
+    app.querySelectorAll("[data-depth]").forEach((b) =>
+      b.addEventListener("click", () => {
+        state.progress.preferredDepth = b.dataset.depth;
+        render();
+      }),
+    );
+    $("#start-btn").addEventListener("click", () => {
+      state.progress.hasOnboarded = true;
+      saveProgress(state.progress);
+      render();
+    });
+  }
+
+  function renderToday() {
+    const p = state.progress;
+    const rec = recommended(p);
+    const lvl = levelOf(p.totalXp);
+    const pct = Math.round(progressToNext(p.totalXp) * 100);
+    app.innerHTML = `
+      <div class="screen">
+        <div class="brand">Blue Moor - Learn</div>
+        <div class="h1">${esc(greeting())}</div>
+        <p class="muted">Continue your journey through history and the cosmos.</p>
+        <div class="card mt16">
+          <div class="row">
+            <div class="stat-circle">
+              <strong>${p.currentStreak}</strong>
+              <span>day streak</span>
+            </div>
+            <div class="grow">
+              <div style="font-weight:650;font-size:18px">Level ${lvl}</div>
+              <div class="cyan" style="font-size:14px">${p.totalXp} XP</div>
+              <div class="progress-bar mt12"><i style="width:${pct}%"></i></div>
+              <div class="dim mt8">${xpToNext(p.totalXp)} XP to Level ${lvl + 1}</div>
+            </div>
+          </div>
+        </div>
+        <div class="h2">Recommended for you</div>
+        ${lessonCard(rec, "Tap to open")}
+        <p class="disclaimer">Tip: Share → Add to Home Screen for an app icon.</p>
+      </div>
+      ${navBar()}`;
+    wireNavAndCards();
+  }
+
+  function renderLibrary(cat) {
+    const lessons = window.BM_LESSONS.filter((l) => l.category === cat);
+    const title = cat === "history" ? "History" : "Cosmos";
+    app.innerHTML = `
+      <div class="screen">
+        <div class="h1">${title}</div>
+        <p class="muted">${lessons.length} lessons</p>
+        ${lessons
+          .map((l) => {
+            const n = (state.progress.completedDepths[l.id] || []).length;
+            return lessonCard(l, n ? `${n} depth(s) done` : "");
+          })
+          .join("")}
+      </div>
+      ${navBar()}`;
+    wireNavAndCards();
+  }
+
+  function renderProgress() {
+    const p = state.progress;
+    const pref = window.BM_DEPTHS[p.preferredDepth]?.label || p.preferredDepth;
+    app.innerHTML = `
+      <div class="screen">
+        <div class="h1">Progress</div>
+        <div class="card"><div class="muted" style="font-size:13px">Total XP</div><div class="gold" style="font-size:26px;font-weight:700">${p.totalXp}</div></div>
+        <div class="card"><div class="muted" style="font-size:13px">Level</div><div class="cyan" style="font-size:26px;font-weight:700">${levelOf(p.totalXp)}</div></div>
+        <div class="card"><div class="muted" style="font-size:13px">Current streak</div><div class="gold" style="font-size:26px;font-weight:700">${p.currentStreak} days</div></div>
+        <div class="card mb0"><div class="muted" style="font-size:13px">Longest streak</div><div class="gold" style="font-size:26px;font-weight:700">${p.longestStreak} days</div></div>
+        <p class="muted mt16">Preferred depth: ${esc(pref)}</p>
+      </div>
+      ${navBar()}`;
+    wireNavAndCards();
+  }
+
+  function renderLesson() {
+    const lesson = window.BM_LESSONS.find((l) => l.id === state.lessonId);
+    if (!lesson) {
+      state.lessonId = null;
+      return render();
+    }
+    const depth = state.depth || state.progress.preferredDepth;
+    state.depth = depth;
+    const done = state.progress.completedDepths[lesson.id] || [];
+    app.innerHTML = `
+      <div class="screen full-pad">
+        <div class="topbar">
+          <button type="button" class="back" id="back">‹</button>
+          <h1>${esc(lesson.title)}</h1>
+        </div>
+        <div class="muted">${esc(lesson.eraOrTopic)}</div>
+        <div class="dim mt8">${esc(lesson.subtitle)}</div>
+        <div class="row wrap gap8 mt16">
+          ${Object.values(window.BM_DEPTHS)
+            .map(
+              (d) => `
+            <button type="button" class="btn-chip ${depth === d.key ? "active" : ""}" data-set-depth="${d.key}">${d.label}</button>`,
+            )
+            .join("")}
+        </div>
+        <div class="lesson-body mt16">${esc(contentFor(lesson, depth))}</div>
+        <div class="h2 cyan">Timeline</div>
+        ${lesson.timeline
+          .map(
+            (t) => `
+          <div class="timeline-item">
+            <div class="y">${esc(t.year)} — ${esc(t.title)}</div>
+            <div class="d">${esc(t.description)}</div>
+          </div>`,
+          )
+          .join("")}
+        <div class="h2 cyan">Key figures</div>
+        ${lesson.figures
+          .map(
+            (f) => `
+          <div class="mt12">
+            <div style="font-weight:650">${esc(f.name)}</div>
+            <div class="muted" style="font-size:13px">${esc(f.role)} · ${esc(f.bio)}</div>
+          </div>`,
+          )
+          .join("")}
+        <button type="button" class="btn-primary mt24" id="complete">
+          ${done.includes(depth) ? `Mark ${window.BM_DEPTHS[depth].label} again (+${window.BM_DEPTHS[depth].xp} XP)` : `Complete ${window.BM_DEPTHS[depth].label} (+${window.BM_DEPTHS[depth].xp} XP)`}
+        </button>
+        <button type="button" class="btn-secondary mt12" id="quiz">Take quiz</button>
+      </div>`;
+    $("#back").onclick = () => {
+      state.lessonId = null;
+      state.showQuiz = false;
+      render();
+    };
+    app.querySelectorAll("[data-set-depth]").forEach((b) => {
+      b.onclick = () => {
+        state.depth = b.dataset.setDepth;
+        render();
+      };
+    });
+    $("#complete").onclick = () => {
+      completeDepth(lesson.id, depth);
+      render();
+    };
+    $("#quiz").onclick = () => {
+      state.showQuiz = true;
+      state.quizIndex = 0;
+      state.selected = null;
+      state.correctCount = 0;
+      state.finished = false;
+      render();
+    };
+  }
+
+  function renderQuiz() {
+    setSecure(true);
+    const lesson = window.BM_LESSONS.find((l) => l.id === state.lessonId);
+    if (!lesson) {
+      state.showQuiz = false;
+      return render();
+    }
+    const qs = lesson.quiz || [];
+    const q = qs[state.quizIndex];
+
+    if (state.finished || !q) {
+      const score = qs.length ? state.correctCount / qs.length : 0;
+      app.innerHTML = `
+        <div class="screen full-pad">
+          <div class="topbar">
+            <button type="button" class="back" id="back">‹</button>
+            <h1>Quiz · ${esc(lesson.title)}</h1>
+          </div>
+          <div class="h1">Quiz complete</div>
+          <p class="muted mt12" style="font-size:18px;color:${score >= 0.8 ? "var(--warn)" : "var(--success)"}">
+            Score: ${Math.round(score * 100)}% (${state.correctCount} / ${qs.length})
+          </p>
+          <button type="button" class="btn-primary mt24" id="done">Done</button>
+        </div>`;
+      $("#back").onclick = $("#done").onclick = () => {
+        recordQuiz(lesson.id, score);
+        state.showQuiz = false;
+        setSecure(false);
+        render();
+      };
+      return;
+    }
+
+    app.innerHTML = `
+      <div class="screen full-pad">
+        <div class="topbar">
+          <button type="button" class="back" id="back">‹</button>
+          <h1>Quiz · ${esc(lesson.title)}</h1>
+        </div>
+        <div class="muted">Question ${state.quizIndex + 1} of ${qs.length}</div>
+        <div class="h2" style="margin-top:12px">${esc(q.q)}</div>
+        ${q.options
+          .map((opt, i) => {
+            let cls = "quiz-opt";
+            if (state.selected !== null) {
+              cls += " disabled";
+              if (i === q.answer) cls += " correct";
+              else if (i === state.selected) cls += " wrong";
+            }
+            return `<div class="${cls}" data-opt="${i}">${esc(opt)}${state.selected !== null && i === q.answer ? " ✓" : ""}</div>`;
+          })
+          .join("")}
+        ${
+          state.selected !== null
+            ? `<p class="muted mt12">${esc(q.explain)}</p>
+               <button type="button" class="btn-primary mt16" id="next">${state.quizIndex >= qs.length - 1 ? "See results" : "Next"}</button>`
+            : ""
+        }
+      </div>`;
+    $("#back").onclick = () => {
+      state.showQuiz = false;
+      setSecure(false);
+      render();
+    };
+    app.querySelectorAll("[data-opt]").forEach((el) => {
+      el.onclick = () => {
+        if (state.selected !== null) return;
+        state.selected = Number(el.dataset.opt);
+        if (state.selected === q.answer) state.correctCount += 1;
+        render();
+      };
+    });
+    const next = $("#next");
+    if (next) {
+      next.onclick = () => {
+        if (state.quizIndex >= qs.length - 1) state.finished = true;
+        else {
+          state.quizIndex += 1;
+          state.selected = null;
+        }
+        render();
+      };
+    }
+  }
+
+  function wireNavAndCards() {
+    app.querySelectorAll("[data-tab]").forEach((b) => {
+      b.onclick = () => {
+        state.tab = b.dataset.tab;
+        state.lessonId = null;
+        state.showQuiz = false;
+        setSecure(false);
+        render();
+      };
+    });
+    app.querySelectorAll("[data-open]").forEach((c) => {
+      c.onclick = () => {
+        state.lessonId = c.dataset.open;
+        state.depth = state.progress.preferredDepth;
+        state.showQuiz = false;
+        render();
+      };
+    });
+  }
+
+  function render() {
+    if (state.toast) {
+      // keep going; toast overlay added below
+    }
+    if (!state.progress.hasOnboarded) {
+      renderOnboarding();
+    } else if (state.showQuiz && state.lessonId) {
+      renderQuiz();
+    } else if (state.lessonId) {
+      setSecure(false);
+      renderLesson();
+    } else {
+      setSecure(false);
+      if (state.tab === "history") renderLibrary("history");
+      else if (state.tab === "cosmos") renderLibrary("cosmos");
+      else if (state.tab === "progress") renderProgress();
+      else renderToday();
+    }
+    if (state.toast) {
+      const t = document.createElement("div");
+      t.className = "toast";
+      t.textContent = state.toast;
+      app.appendChild(t);
+    }
+  }
+
+  render();
+})();
+
   </script>
 </body>
 </html>
