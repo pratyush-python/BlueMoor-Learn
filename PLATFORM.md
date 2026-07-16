@@ -1,68 +1,42 @@
-# Blue Moor - Learn — iOS / iPadOS roadmap
+# Blue Moor - Learn — iOS / iPhone testing
 
 **Branch:** `platform/ios`  
-**Product name:** Blue Moor - Learn  
-**Status:** Planned (not implemented on this branch yet)
+**Product name:** Blue Moor - Learn
 
-## Goal
+## Shareable iPhone testing (now)
 
-Ship **Blue Moor - Learn** on iPhone and iPad with the same learning loop as macOS:
+iOS does **not** allow WhatsApp / AirDrop of a random `.ipa` install the way Android allows APK sideloading.
 
-- Today (streak, recommended lesson)
-- History & Cosmos libraries
-- Lesson reader (Overview / Standard / Deep)
-- Quizzes + XP / streaks
-- Onboarding + settings
-- Progress dashboard
+### Option A — Mobile web app (recommended for friends)
 
-## Recommended stack
+Open in **Safari on any iPhone** (no App Store, no developer account):
 
-| Layer | Choice | Notes |
-|-------|--------|--------|
-| UI | **SwiftUI** | Share models/services patterns with macOS |
-| Persistence | **SwiftData** (or Core Data) | Align with macOS `UserProfile` / `LessonProgress` |
-| Min OS | **iOS 17+** (TBD) | SwiftData-friendly |
-| Project | Multiplatform Xcode target or separate iOS target | Prefer shared `Models` + `Services` modules |
+- Source: `web/` in this repo  
+- Hosted via GitHub Pages (see `web/README.md`)  
+- Progress saved in the browser on that device  
+- “Add to Home Screen” for an app-like icon
 
-## Phases
+### Option B — Native app via TestFlight (later)
 
-### Phase 0 — Scaffold
-- [ ] Add iOS app target (or multiplatform) to Xcode project
-- [ ] Share `Models/`, `Services/`, lesson content
-- [ ] iOS entry: `BlueMoorLearnApp` + root `TabView` or `NavigationStack`
-- [ ] Dark-mode-first theme (`BlueMoorTheme`)
+Requires:
 
-### Phase 1 — Core loop
-- [ ] Today, History, Cosmos, Progress tabs (thumb-friendly layout)
-- [ ] Lesson + Quiz flows full screen / sheets
-- [ ] Onboarding
-- [ ] Local persistence (streaks, XP, completions)
+1. Apple Developer Program (**$99/year**)  
+2. Xcode signed archive of the iOS target  
+3. App Store Connect + TestFlight invite email  
 
-### Phase 2 — iOS polish
-- [ ] Dynamic Type, VoiceOver, Reduce Motion
-- [ ] Widgets (streak / daily lesson) — optional
-- [ ] iPad multi-column layouts
-- [ ] App Store assets, privacy nutrition labels
+See `IOS_SHARE.md` for the full checklist.
 
-### Phase 3 — Later
-- [ ] iCloud sync (SwiftData + CloudKit)
-- [ ] Push: daily streak reminder (opt-in)
-- [ ] Spotlight / Siri suggestions for “continue lesson”
+## Native iOS roadmap
 
-## Explicit non-goals (initially)
+| Layer | Choice |
+|-------|--------|
+| UI | SwiftUI (shared patterns with macOS) |
+| Persistence | SwiftData / AppStorage |
+| Min OS | iOS 17+ |
 
-- Battle Mode AI opponent
-- Real-time multiplayer
-- Full feature parity with every future macOS experiment on day one
+### Phases
 
-## Open questions
-
-1. Single multiplatform target vs separate iOS app target?
-2. Minimum iOS version (17 vs 18)?
-3. Phone-first vs iPad-class navigation?
-
-## Working agreement
-
-- Keep experimental iOS UI on this branch.
-- Shared lesson JSON / models: design for reuse before duplicating.
-- When ready, open a PR describing the scaffold and any `main` shared-code extractions.
+- [x] Mobile web shareable build (`web/`)
+- [ ] Multiplatform iOS target (drop AppKit-only APIs)
+- [ ] TestFlight internal testing
+- [ ] App Store submission

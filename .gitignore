@@ -34,3 +34,8 @@ OPEN_ME.md
 .idea/
 *.swp
 *~
+
+# Android test APKs
+dist/
+*.apk
+*.aab
