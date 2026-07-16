@@ -59,11 +59,35 @@ button {
 .card.clickable:active { transform: scale(0.98); }
 .card-hero {
   height: 72px; border-radius: 12px; margin: -16px -16px 12px;
-  display: flex; align-items: flex-end; padding: 12px 16px;
+  display: flex; align-items: flex-end; justify-content: space-between; padding: 12px 16px;
   font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
 }
 .card-hero.history { background: linear-gradient(90deg, rgba(201,162,107,0.4), transparent); color: var(--gold); }
 .card-hero.cosmos { background: linear-gradient(90deg, rgba(92,225,230,0.35), transparent); color: var(--cyan); }
+.fav-btn {
+  background: transparent; color: inherit; font-size: 20px; padding: 4px 6px; line-height: 1;
+  border-radius: 8px;
+}
+.tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.tag {
+  font-size: 11px; font-weight: 600; color: var(--dim);
+  background: var(--elevated); padding: 4px 8px; border-radius: 999px;
+}
+.search-wrap { margin: 12px 0 8px; }
+.search-wrap input {
+  width: 100%; background: var(--surface); border: 1px solid #1f2937; color: var(--text);
+  border-radius: 12px; padding: 12px 14px; outline: none;
+}
+.search-wrap input:focus { border-color: var(--cyan); }
+.era-row {
+  display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 6px;
+  -webkit-overflow-scrolling: touch;
+}
+.era-row .btn-chip { flex: 0 0 auto; }
+.fact-card { border: 1px solid rgba(201,162,107,0.25); }
+.fact-label { color: var(--gold); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.fact-title { color: var(--text); font-weight: 650; font-size: 16px; margin-top: 6px; }
+.bottom-nav button { font-size: 10px; }
 
 .row { display: flex; gap: 12px; align-items: center; }
 .row.wrap { flex-wrap: wrap; }

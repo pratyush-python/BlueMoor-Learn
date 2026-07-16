@@ -3,7 +3,21 @@ package com.bluemoor.learn.data
 object ContentRepository {
 
     val allLessons: List<Lesson> by lazy {
-        listOf(romanRepublic, ancientEgypt, solarSystem, blackHoles)
+        listOf(
+            romanRepublic,
+            ancientEgypt,
+            indusValley,
+            ashokaMaurya,
+            silkRoad,
+            mansaMusa,
+            fallConstantinople,
+            mughalFounding,
+            frenchRevolution,
+            partition1947,
+            printingPress,
+            solarSystem,
+            blackHoles,
+        )
     }
 
     fun lessons(category: LessonCategory): List<Lesson> =
@@ -171,6 +185,242 @@ object ContentRepository {
                 1,
                 "EHT released the first image of a black hole shadow (M87*).",
             ),
+        ),
+    )
+
+    private val indusValley = Lesson(
+        id = "indus-valley",
+        title = "The Indus Valley Civilization",
+        category = LessonCategory.HISTORY,
+        subtitle = "Planned cities, seals, and a script we still cannot fully read",
+        eraOrTopic = "Harappan Civilization • c. 3300–1300 BC",
+        estimatedMinutes = 10,
+        overviewContent = "Along the Indus rose one of the world's earliest urban civilizations — contemporary with Egypt and Mesopotamia, famous for orderly cities.",
+        standardContent = "Harappa and Mohenjo-daro: grid streets, baked-brick houses, drains, and the Great Bath. Trade reached Mesopotamia. Seals show a still-undeciphered script.",
+        deepContent = "Standardized bricks and water management suggest strong civic norms. Decline after c. 1900 BC may involve climate and river shifts. The undeciphered script remains a major puzzle.",
+        timeline = listOf(
+            TimelineEvent("c. 3300 BC", "Early Harappan", "Village networks densify toward urbanism."),
+            TimelineEvent("c. 2600 BC", "Mature Harappan", "Great cities at peak organization."),
+            TimelineEvent("c. 1900 BC", "Transformation", "Urban centers fade; regional cultures emerge."),
+            TimelineEvent("1920s", "Modern Discovery", "Harappa and Mohenjo-daro excavated."),
+        ),
+        keyFigures = listOf(
+            KeyFigure("John Marshall", "Archaeologist", "Announced the civilization in the 1920s.", "Public recognition of the Indus culture."),
+            KeyFigure("R. D. Banerji", "Excavator", "Early work at Mohenjo-daro.", "Helped identify the culture."),
+            KeyFigure("Dayaram Sahni", "Excavator", "Key excavations at Harappa.", "Foundational fieldwork."),
+        ),
+        quiz = listOf(
+            QuizQuestion("multipleChoice", "Which feature is most associated with Mature Harappan cities?", listOf("Pyramid tombs", "Grid planning and drains", "Marble amphitheaters", "Great Wall fortifications"), 1, "Harappan cities are famous for planned streets and drainage."),
+            QuizQuestion("trueFalse", "The Indus script has been fully deciphered.", listOf("True", "False"), 1, "It remains undeciphered."),
+        ),
+    )
+
+    private val ashokaMaurya = Lesson(
+        id = "ashoka-maurya",
+        title = "Ashoka and the Mauryan Empire",
+        category = LessonCategory.HISTORY,
+        subtitle = "From bloody conquest to dhamma on stone",
+        eraOrTopic = "Mauryan Empire • 322–185 BC",
+        estimatedMinutes = 11,
+        overviewContent = "The Mauryas first united much of the subcontinent. Ashoka's reign is remembered for scale and a public ethical turn after war.",
+        standardContent = "Chandragupta founded the empire with Chanakya. Ashoka's Kalinga war was devastating; afterward he promoted dhamma through rock and pillar edicts.",
+        deepContent = "Edicts are key primary sources. Dhamma was broader than one sect. After Ashoka the empire weakened and fell c. 185 BC. Modern India revived Ashoka's symbols (Lion Capital).",
+        timeline = listOf(
+            TimelineEvent("c. 322 BC", "Empire Founded", "Chandragupta establishes Mauryan power."),
+            TimelineEvent("c. 261 BC", "Kalinga War", "Ashoka's costly victory and ideological turn."),
+            TimelineEvent("c. 250s BC", "Edicts", "Dhamma messages on rocks and pillars."),
+            TimelineEvent("c. 185 BC", "Mauryan Fall", "Pushyamitra Shunga ends the dynasty."),
+        ),
+        keyFigures = listOf(
+            KeyFigure("Chandragupta Maurya", "Founder", "Built the empire Ashoka inherited.", "First subcontinental empire-builder."),
+            KeyFigure("Chanakya", "Strategist", "Associated with Arthashastra statecraft.", "Advisor-legend of Mauryan rise."),
+            KeyFigure("Ashoka", "Emperor", "Expanded then redefined imperial purpose.", "Edicts and dhamma."),
+        ),
+        quiz = listOf(
+            QuizQuestion("multipleChoice", "What event is linked to Ashoka's change of outlook?", listOf("Building Sanchi", "The Kalinga War", "Alexander's invasion", "Gupta coronation"), 1, "Kalinga is the traditional turning point."),
+            QuizQuestion("trueFalse", "Ashoka's edicts are primary written sources from his reign.", listOf("True", "False"), 0, "Rock and pillar edicts are contemporary inscriptions."),
+        ),
+    )
+
+    private val silkRoad = Lesson(
+        id = "silk-road",
+        title = "The Silk Roads",
+        category = LessonCategory.HISTORY,
+        subtitle = "Not one road — a web of trade, ideas, and risk",
+        eraOrTopic = "Silk Roads • c. 2nd century BC – 15th century AD",
+        estimatedMinutes = 10,
+        overviewContent = "Overlapping land and sea routes linked China, Central Asia, India, Persia, and the Mediterranean — carrying silk, religions, tech, and disease.",
+        standardContent = "A network of oases and ports, not a single highway. Buddhism, later Islam, paper-making knowledge, and goods moved both ways.",
+        deepContent = "'Silk Road' is a modern term; historians prefer plural. Empires boosted traffic; the Black Death shows connectivity's dangers. Maritime routes later rivaled overland ones.",
+        timeline = listOf(
+            TimelineEvent("2nd c. BC", "Han Expansion West", "Chinese engagement with Central Asia intensifies."),
+            TimelineEvent("1st–3rd c. AD", "Kushan Hub", "Bridges India, China, and Iran."),
+            TimelineEvent("13th c.", "Pax Mongolica", "Lower barriers for merchants and missionaries."),
+        ),
+        keyFigures = listOf(
+            KeyFigure("Zhang Qian", "Han Envoy", "Opened Chinese knowledge of Central Asia.", "Diplomatic pioneer."),
+            KeyFigure("Xuanzang", "Buddhist Pilgrim", "7th-century journey to India.", "Classic of travel and faith."),
+            KeyFigure("Ibn Battuta", "Traveler", "Mapped a connected Afro-Eurasian world.", "Extraordinary itinerary."),
+        ),
+        quiz = listOf(
+            QuizQuestion("trueFalse", "The Silk Roads carried only luxury goods.", listOf("True", "False"), 1, "Ideas, religions, technologies, and diseases moved too."),
+            QuizQuestion("multipleChoice", "Who is commonly credited with coining 'Silk Road'?", listOf("Marco Polo", "Ferdinand von Richthofen", "Ashoka", "Zheng He"), 1, "Von Richthofen popularized Seidenstraße."),
+        ),
+    )
+
+    private val mansaMusa = Lesson(
+        id = "mansa-musa",
+        title = "Mansa Musa and the Mali Empire",
+        category = LessonCategory.HISTORY,
+        subtitle = "Gold, scholarship, and a famous medieval pilgrimage",
+        eraOrTopic = "Mali Empire • 13th–16th centuries",
+        estimatedMinutes = 9,
+        overviewContent = "Mansa Musa's lavish hajj made Mali famous far beyond West Africa — behind the legend stood gold-salt trade and centers of learning.",
+        standardContent = "Mali controlled trans-Saharan routes. Timbuktu and Djenné thrived. Musa's c. 1324 pilgrimage entered Mediterranean chronicles.",
+        deepContent = "Arabic sources and oral epics (Sundiata) reconstruct this world with different biases. Manuscript cultures show advanced scholarship. Mali was a center, not a periphery.",
+        timeline = listOf(
+            TimelineEvent("c. 1235", "Sundiata", "Foundations of Mali (epic tradition)."),
+            TimelineEvent("c. 1324", "Hajj", "Mansa Musa's pilgrimage becomes famous."),
+            TimelineEvent("15th–16th c.", "Shift", "Songhai and changing routes reshape the region."),
+        ),
+        keyFigures = listOf(
+            KeyFigure("Sundiata Keita", "Founder (tradition)", "Hero of the Epic of Sundiata.", "Associated with Mali's rise."),
+            KeyFigure("Mansa Musa", "Emperor", "Pilgrimage, patronage, imperial wealth.", "Global medieval fame."),
+            KeyFigure("Ibn Khaldun", "Historian", "Referenced Western Sudanese states.", "Major North African scholar."),
+        ),
+        quiz = listOf(
+            QuizQuestion("multipleChoice", "Mansa Musa's outside fame is most tied to…", listOf("Voyage to China", "Hajj to Mecca", "Conquest of Rome", "Silk Road caravan"), 1, "His Mecca pilgrimage was widely reported."),
+            QuizQuestion("trueFalse", "Timbuktu was a center of Islamic learning and trade.", listOf("True", "False"), 0, "Known for scholars and manuscripts."),
+        ),
+    )
+
+    private val fallConstantinople = Lesson(
+        id = "fall-constantinople",
+        title = "1453: Fall of Constantinople",
+        category = LessonCategory.HISTORY,
+        subtitle = "Cannons, walls, and the end of a thousand-year empire",
+        eraOrTopic = "Ottoman Conquest • 29 May 1453",
+        estimatedMinutes = 10,
+        overviewContent = "Mehmed II's capture of Constantinople ended Byzantium and made the city the Ottoman capital — a hinge between medieval and early modern eras.",
+        standardContent = "Massive cannons, fleet maneuvers, and engineering overcame legendary walls. Hagia Sophia became a mosque; the city was rebuilt as imperial center.",
+        deepContent = "Byzantium had been shrinking for generations. 1453 was climax, not bolt from blue. Avoid single-date myths: print, Atlantic voyages, and gunpowder empires remade the age together.",
+        timeline = listOf(
+            TimelineEvent("1204", "Fourth Crusade", "Latins sack the city; Byzantium weakened."),
+            TimelineEvent("1453", "Siege & Fall", "Ottomans take Constantinople."),
+            TimelineEvent("1453+", "New Capital", "City remade as Ottoman center."),
+        ),
+        keyFigures = listOf(
+            KeyFigure("Mehmed II", "Ottoman Sultan", "Conqueror who made the city capital.", "Imperial founder-figure."),
+            KeyFigure("Constantine XI", "Last Byzantine Emperor", "Died defending the city.", "End of Roman imperial line in the east."),
+            KeyFigure("Orban", "Cannon Founder", "Associated with giant bombards.", "Gunpowder siege technology."),
+        ),
+        quiz = listOf(
+            QuizQuestion("multipleChoice", "Constantinople fell to the Ottomans in…", listOf("1204", "1453", "1492", "1526"), 1, "29 May 1453."),
+            QuizQuestion("trueFalse", "The Theodosian Walls had protected the city for centuries.", listOf("True", "False"), 0, "Legendary land fortifications."),
+        ),
+    )
+
+    private val mughalFounding = Lesson(
+        id = "mughal-founding",
+        title = "Babur and the Mughal Founding",
+        category = LessonCategory.HISTORY,
+        subtitle = "A Timurid prince, gunpowder, and a new imperial age",
+        eraOrTopic = "Mughal Empire • from 1526",
+        estimatedMinutes = 10,
+        overviewContent = "Babur's 1526 victory at Panipat founded the Mughal Empire — later one of the great early modern states of South Asia.",
+        standardContent = "Timurid tactics and gunpowder mattered. The Baburnama is a frank royal memoir. Akbar later consolidated administration and alliances.",
+        deepContent = "Longevity required bureaucracy and negotiation with local elites, not only conquest. Persianate court culture met South Asian society in complex synthesis.",
+        timeline = listOf(
+            TimelineEvent("1526", "First Panipat", "Babur defeats Ibrahim Lodi."),
+            TimelineEvent("1556–1605", "Akbar", "Expansion and consolidation."),
+            TimelineEvent("1632–1653", "Taj Mahal", "Shah Jahan's iconic mausoleum."),
+        ),
+        keyFigures = listOf(
+            KeyFigure("Babur", "Founder", "Timurid prince and memoirist.", "Opened the Mughal era."),
+            KeyFigure("Humayun", "Emperor", "Lost then recovered the throne.", "Bridge to Akbar."),
+            KeyFigure("Akbar", "Consolidator", "Built high-Mughal political foundations.", "Alliances and administration."),
+        ),
+        quiz = listOf(
+            QuizQuestion("multipleChoice", "Babur's 1526 victory is the First Battle of…", listOf("Plassey", "Panipat", "Talikota", "Haldighati"), 1, "First Panipat founded Mughal power."),
+            QuizQuestion("trueFalse", "The Baburnama is a first-person royal memoir.", listOf("True", "False"), 0, "Major primary source."),
+        ),
+    )
+
+    private val frenchRevolution = Lesson(
+        id = "french-revolution",
+        title = "The French Revolution",
+        category = LessonCategory.HISTORY,
+        subtitle = "Rights, terror, and the remaking of politics",
+        eraOrTopic = "France • 1789–1799",
+        estimatedMinutes = 12,
+        overviewContent = "France moved from monarchy toward republic and empire, inventing a language of rights that still shapes global politics.",
+        standardContent = "1789: Estates-General, Bastille, Rights of Man. Radical years brought republic, war, and Terror. Napoleon rose in 1799.",
+        deepContent = "Experiences differed for women, colonists, and peasants. The Haitian Revolution forced questions about universal rights and slavery.",
+        timeline = listOf(
+            TimelineEvent("1789", "Revolution begins", "Estates-General and Bastille."),
+            TimelineEvent("1792–94", "Republic & Terror", "Radical politics peak."),
+            TimelineEvent("1799", "Brumaire", "Napoleon seizes power."),
+        ),
+        keyFigures = listOf(
+            KeyFigure("Louis XVI", "King", "Authority collapsed; executed 1793.", "End of old regime."),
+            KeyFigure("Robespierre", "Jacobin Leader", "Symbol of virtue and Terror.", "Revolutionary radicalism."),
+            KeyFigure("Olympe de Gouges", "Writer", "Demanded women's rights.", "Executed during the Terror."),
+        ),
+        quiz = listOf(
+            QuizQuestion("multipleChoice", "The Declaration of the Rights of Man is mainly from…", listOf("1776", "1789", "1815", "1848"), 1, "Adopted in 1789."),
+            QuizQuestion("trueFalse", "The Revolution had no colonial consequences.", listOf("True", "False"), 1, "Haiti and empire were deeply connected."),
+        ),
+    )
+
+    private val partition1947 = Lesson(
+        id = "partition-1947",
+        title = "Partition of India, 1947",
+        category = LessonCategory.HISTORY,
+        subtitle = "Independence, borders, and human catastrophe",
+        eraOrTopic = "South Asia • 1947",
+        estimatedMinutes = 11,
+        overviewContent = "British India was partitioned into India and Pakistan. Freedom arrived with mass migration and violence that still shapes the region.",
+        standardContent = "Failed negotiations and accelerated transfer produced the Radcliffe Line. Millions moved; Kashmir and other issues endured.",
+        deepContent = "Multiple causes: communal politics, colonial exit, local breakdowns. Study with care — center evidence and human experience, avoid propaganda.",
+        timeline = listOf(
+            TimelineEvent("1940", "Lahore Resolution", "Demand for Muslim-majority states articulated."),
+            TimelineEvent("15 Aug 1947", "Independence & Partition", "Two dominions; migration and violence."),
+            TimelineEvent("1947–48", "Kashmir War", "First India-Pakistan war."),
+        ),
+        keyFigures = listOf(
+            KeyFigure("Jawaharlal Nehru", "First PM of India", "Led Congress into government.", "Independence leadership."),
+            KeyFigure("Muhammad Ali Jinnah", "Pakistan movement leader", "First Governor-General of Pakistan.", "Two-nation politics."),
+            KeyFigure("Mahatma Gandhi", "Nationalist leader", "Opposed communal division.", "Assassinated 1948."),
+        ),
+        quiz = listOf(
+            QuizQuestion("multipleChoice", "Partition and independence primarily occurred in…", listOf("1935", "1942", "1947", "1950"), 2, "August 1947."),
+            QuizQuestion("trueFalse", "The Radcliffe Line concerned Punjab and Bengal borders.", listOf("True", "False"), 0, "Radcliffe chaired those commissions."),
+        ),
+    )
+
+    private val printingPress = Lesson(
+        id = "printing-press",
+        title = "How Print Changed the World",
+        category = LessonCategory.HISTORY,
+        subtitle = "Moveable type, pamphlets, and the explosion of ideas",
+        eraOrTopic = "Information Revolution • from c. 1450",
+        estimatedMinutes = 9,
+        overviewContent = "When print scaled, ideas could multiply faster than censors — remaking religion, science, and politics over centuries.",
+        standardContent = "East Asia had earlier printing; Europe's mid-15th-century boom still transformed scale. Reformation pamphlets and scientific diagrams spread widely.",
+        deepContent = "Print did not automatically create modernity. Compare Eurasian trajectories to avoid Eurocentrism; states used print for control as dissidents used it for resistance.",
+        timeline = listOf(
+            TimelineEvent("Before 800", "East Asian Print", "Woodblock traditions thrive."),
+            TimelineEvent("c. 1455", "Gutenberg Bible", "Icon of European moveable type."),
+            TimelineEvent("1517+", "Reformation Media", "Pamphlets spread rapidly."),
+        ),
+        keyFigures = listOf(
+            KeyFigure("Johannes Gutenberg", "Printer", "European moveable-type breakthrough.", "Symbol of print revolution."),
+            KeyFigure("Martin Luther", "Reformer", "Used print to spread religious challenge.", "Media-savvy theologian."),
+            KeyFigure("Goryeo Korea", "Innovation center", "Early metal type (e.g. Jikji, 1377).", "Often overlooked precedent."),
+        ),
+        quiz = listOf(
+            QuizQuestion("trueFalse", "Moveable type appeared only in Europe.", listOf("True", "False"), 1, "East Asia had earlier traditions including Korean metal type."),
+            QuizQuestion("trueFalse", "Pamphlets mattered to the Protestant Reformation.", listOf("True", "False"), 0, "Cheap print carried ideas far beyond pulpits."),
         ),
     )
 }

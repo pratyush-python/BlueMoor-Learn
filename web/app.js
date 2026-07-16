@@ -1,5 +1,5 @@
 (() => {
-  const STORE_KEY = "bluemoor_progress_v1";
+  const STORE_KEY = "bluemoor_progress_v2";
   const $ = (sel, el = document) => el.querySelector(sel);
   const app = $("#app");
 
@@ -10,13 +10,15 @@
     lastStreakDay: null,
     completedDepths: {},
     bestQuizScores: {},
+    favorites: [],
     hasOnboarded: false,
     preferredDepth: "STANDARD",
   });
 
   function loadProgress() {
     try {
-      return { ...defaultProgress(), ...JSON.parse(localStorage.getItem(STORE_KEY) || "{}") };
+      const raw = JSON.parse(localStorage.getItem(STORE_KEY) || localStorage.getItem("bluemoor_progress_v1") || "{}");
+      return { ...defaultProgress(), ...raw, favorites: raw.favorites || [] };
     } catch {
       return defaultProgress();
     }
@@ -61,6 +63,18 @@
     return "Good evening.";
   }
 
+  function dayOfYear() {
+    const now = new Date();
+    const start = new Date(now.getFullYear(), 0, 0);
+    return Math.floor((now - start) / 86400000);
+  }
+
+  function dailyFact() {
+    const facts = window.BM_DAILY_FACTS || [];
+    if (!facts.length) return null;
+    return facts[dayOfYear() % facts.length];
+  }
+
   function contentFor(lesson, depth) {
     if (depth === "OVERVIEW") return lesson.overview;
     if (depth === "DEEP") return lesson.deep;
@@ -68,11 +82,43 @@
   }
 
   function recommended(p) {
-    const hit = window.BM_LESSONS.find((l) => {
+    const incomplete = window.BM_LESSONS.find((l) => {
       const done = p.completedDepths[l.id] || [];
       return !done.includes(p.preferredDepth);
     });
-    return hit || window.BM_LESSONS[0];
+    if (incomplete) return incomplete;
+    // Prefer history for discovery if all complete
+    return window.BM_LESSONS.find((l) => l.category === "history") || window.BM_LESSONS[0];
+  }
+
+  function isFav(id) {
+    return (state.progress.favorites || []).includes(id);
+  }
+
+  function toggleFav(id) {
+    const set = new Set(state.progress.favorites || []);
+    if (set.has(id)) set.delete(id);
+    else set.add(id);
+    state.progress = { ...state.progress, favorites: [...set] };
+    saveProgress(state.progress);
+    toast(set.has(id) ? "Saved to favorites" : "Removed from favorites");
+  }
+
+  function filterLessons(category) {
+    let list = window.BM_LESSONS.filter((l) => l.category === category);
+    if (state.era && state.era !== "All") {
+      list = list.filter((l) => (l.era || "") === state.era);
+    }
+    const q = (state.search || "").trim().toLowerCase();
+    if (q) {
+      list = list.filter((l) => {
+        const blob = [l.title, l.subtitle, l.eraOrTopic, l.region, l.era, l.overview]
+          .join(" ")
+          .toLowerCase();
+        return blob.includes(q);
+      });
+    }
+    return list;
   }
 
   const state = {
@@ -86,10 +132,11 @@
     correctCount: 0,
     finished: false,
     toast: null,
+    search: "",
+    era: "All",
   };
 
   function setSecure(on) {
-    // Best-effort: discourage capture while quiz open (web has no FLAG_SECURE)
     document.body.dataset.quiz = on ? "1" : "0";
   }
 
@@ -99,7 +146,7 @@
     setTimeout(() => {
       state.toast = null;
       render();
-    }, 1800);
+    }, 1600);
   }
 
   function completeDepth(lessonId, depth) {
@@ -157,11 +204,17 @@
   function lessonCard(lesson, extra = "") {
     const cat = lesson.category === "history" ? "history" : "cosmos";
     const label = cat === "history" ? "HISTORY" : "COSMOS";
+    const fav = isFav(lesson.id) ? "★" : "☆";
+    const tags = [lesson.era, lesson.region].filter(Boolean).join(" · ");
     return `
       <div class="card clickable" data-open="${esc(lesson.id)}">
-        <div class="card-hero ${cat}">${label}</div>
+        <div class="card-hero ${cat}">
+          <span>${label}</span>
+          <button type="button" class="fav-btn" data-fav="${esc(lesson.id)}" aria-label="Favorite">${fav}</button>
+        </div>
         <div style="font-weight:650;font-size:17px">${esc(lesson.title)}</div>
         <div class="muted" style="font-size:13px;margin-top:2px">${esc(lesson.eraOrTopic)}</div>
+        ${tags ? `<div class="tag-row"><span class="tag">${esc(tags)}</span></div>` : ""}
         <div class="dim" style="margin-top:6px">${esc(lesson.subtitle)}</div>
         ${extra ? `<div class="cyan" style="font-size:12px;margin-top:8px">${esc(extra)}</div>` : ""}
       </div>`;
@@ -172,6 +225,7 @@
       ["today", "⌂", "Today"],
       ["history", "📜", "History"],
       ["cosmos", "✦", "Cosmos"],
+      ["saved", "★", "Saved"],
       ["progress", "▣", "Progress"],
     ];
     return `
@@ -187,6 +241,26 @@
       </nav>`;
   }
 
+  function searchAndEraBar(showEra) {
+    const eras = window.BM_ERAS || ["All"];
+    return `
+      <div class="search-wrap">
+        <input type="search" id="search" placeholder="Search lessons…" value="${esc(state.search)}" />
+      </div>
+      ${
+        showEra
+          ? `<div class="era-row">
+        ${eras
+          .map(
+            (e) =>
+              `<button type="button" class="btn-chip ${state.era === e ? "active" : ""}" data-era="${esc(e)}">${esc(e)}</button>`,
+          )
+          .join("")}
+      </div>`
+          : ""
+      }`;
+  }
+
   function renderOnboarding() {
     const depths = Object.values(window.BM_DEPTHS);
     const sel = state.progress.preferredDepth;
@@ -194,7 +268,7 @@
       <div class="screen full-pad onboard">
         <div class="brand">Blue Moor - Learn</div>
         <div class="h1">History. Cosmos. Mastery.</div>
-        <p class="muted">Pick a default lesson depth to begin on your iPhone.</p>
+        <p class="muted">Pick a default lesson depth. You can change it anytime in a lesson.</p>
         <div class="mt24 row wrap gap8">
           ${depths
             .map(
@@ -227,11 +301,17 @@
     const rec = recommended(p);
     const lvl = levelOf(p.totalXp);
     const pct = Math.round(progressToNext(p.totalXp) * 100);
+    const fact = dailyFact();
+    const histCount = window.BM_LESSONS.filter((l) => l.category === "history").length;
+    const picks = window.BM_LESSONS.filter((l) => l.category === "history")
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 2);
+
     app.innerHTML = `
       <div class="screen">
         <div class="brand">Blue Moor - Learn</div>
         <div class="h1">${esc(greeting())}</div>
-        <p class="muted">Continue your journey through history and the cosmos.</p>
+        <p class="muted">${histCount} history lessons · search, save, and go deep.</p>
         <div class="card mt16">
           <div class="row">
             <div class="stat-circle">
@@ -246,27 +326,58 @@
             </div>
           </div>
         </div>
+        ${
+          fact
+            ? `<div class="card fact-card mt12">
+          <div class="fact-label">Today in curiosity</div>
+          <div class="fact-title">${esc(fact.title)}</div>
+          <div class="muted" style="font-size:14px;margin-top:6px">${esc(fact.text)}</div>
+        </div>`
+            : ""
+        }
         <div class="h2">Recommended for you</div>
         ${lessonCard(rec, "Tap to open")}
+        <div class="h2">History picks</div>
+        ${picks.map((l) => lessonCard(l)).join("")}
         <p class="disclaimer">Tip: Share → Add to Home Screen for an app icon.</p>
       </div>
       ${navBar()}`;
     wireNavAndCards();
   }
 
-  function renderLibrary(cat) {
-    const lessons = window.BM_LESSONS.filter((l) => l.category === cat);
-    const title = cat === "history" ? "History" : "Cosmos";
+  function renderLibrary(category) {
+    const lessons = filterLessons(category);
+    const title = category === "history" ? "History" : "Cosmos";
     app.innerHTML = `
       <div class="screen">
         <div class="h1">${title}</div>
-        <p class="muted">${lessons.length} lessons</p>
-        ${lessons
-          .map((l) => {
-            const n = (state.progress.completedDepths[l.id] || []).length;
-            return lessonCard(l, n ? `${n} depth(s) done` : "");
-          })
-          .join("")}
+        <p class="muted">${lessons.length} lesson${lessons.length === 1 ? "" : "s"}</p>
+        ${searchAndEraBar(category === "history")}
+        ${
+          lessons.length
+            ? lessons
+                .map((l) => {
+                  const n = (state.progress.completedDepths[l.id] || []).length;
+                  return lessonCard(l, n ? `${n} depth(s) done` : "");
+                })
+                .join("")
+            : `<div class="card"><p class="muted">No lessons match your search.</p></div>`
+        }
+      </div>
+      ${navBar()}`;
+    wireNavAndCards();
+    wireSearch(category === "history");
+  }
+
+  function renderSaved() {
+    const favs = (state.progress.favorites || [])
+      .map((id) => window.BM_LESSONS.find((l) => l.id === id))
+      .filter(Boolean);
+    app.innerHTML = `
+      <div class="screen">
+        <div class="h1">Saved</div>
+        <p class="muted">${favs.length ? "Your bookmarked lessons." : "Tap ☆ on any lesson card to save it here."}</p>
+        ${favs.length ? favs.map((l) => lessonCard(l, "Favorite")).join("") : `<div class="card"><p class="muted mb0">No favorites yet — explore History.</p></div>`}
       </div>
       ${navBar()}`;
     wireNavAndCards();
@@ -275,13 +386,15 @@
   function renderProgress() {
     const p = state.progress;
     const pref = window.BM_DEPTHS[p.preferredDepth]?.label || p.preferredDepth;
+    const completedLessons = Object.keys(p.completedDepths || {}).length;
     app.innerHTML = `
       <div class="screen">
         <div class="h1">Progress</div>
         <div class="card"><div class="muted" style="font-size:13px">Total XP</div><div class="gold" style="font-size:26px;font-weight:700">${p.totalXp}</div></div>
         <div class="card"><div class="muted" style="font-size:13px">Level</div><div class="cyan" style="font-size:26px;font-weight:700">${levelOf(p.totalXp)}</div></div>
         <div class="card"><div class="muted" style="font-size:13px">Current streak</div><div class="gold" style="font-size:26px;font-weight:700">${p.currentStreak} days</div></div>
-        <div class="card mb0"><div class="muted" style="font-size:13px">Longest streak</div><div class="gold" style="font-size:26px;font-weight:700">${p.longestStreak} days</div></div>
+        <div class="card"><div class="muted" style="font-size:13px">Lessons touched</div><div class="cyan" style="font-size:26px;font-weight:700">${completedLessons}</div></div>
+        <div class="card mb0"><div class="muted" style="font-size:13px">Favorites</div><div class="gold" style="font-size:26px;font-weight:700">${(p.favorites || []).length}</div></div>
         <p class="muted mt16">Preferred depth: ${esc(pref)}</p>
       </div>
       ${navBar()}`;
@@ -297,13 +410,19 @@
     const depth = state.depth || state.progress.preferredDepth;
     state.depth = depth;
     const done = state.progress.completedDepths[lesson.id] || [];
+    const fav = isFav(lesson.id) ? "★ Saved" : "☆ Save";
     app.innerHTML = `
       <div class="screen full-pad">
         <div class="topbar">
           <button type="button" class="back" id="back">‹</button>
           <h1>${esc(lesson.title)}</h1>
+          <button type="button" class="btn-chip" id="fav-inline">${fav}</button>
         </div>
         <div class="muted">${esc(lesson.eraOrTopic)}</div>
+        <div class="tag-row mt8">
+          ${lesson.era ? `<span class="tag">${esc(lesson.era)}</span>` : ""}
+          ${lesson.region ? `<span class="tag">${esc(lesson.region)}</span>` : ""}
+        </div>
         <div class="dim mt8">${esc(lesson.subtitle)}</div>
         <div class="row wrap gap8 mt16">
           ${Object.values(window.BM_DEPTHS)
@@ -342,6 +461,10 @@
     $("#back").onclick = () => {
       state.lessonId = null;
       state.showQuiz = false;
+      render();
+    };
+    $("#fav-inline").onclick = () => {
+      toggleFav(lesson.id);
       render();
     };
     app.querySelectorAll("[data-set-depth]").forEach((b) => {
@@ -449,13 +572,48 @@
     }
   }
 
+  function wireSearch(withEra) {
+    const input = $("#search");
+    if (input) {
+      input.addEventListener("input", () => {
+        state.search = input.value;
+        // re-render library only
+        if (state.tab === "history") renderLibrary("history");
+        else if (state.tab === "cosmos") renderLibrary("cosmos");
+        // restore focus/caret
+        const again = $("#search");
+        if (again) {
+          again.focus();
+          const len = again.value.length;
+          again.setSelectionRange(len, len);
+        }
+      });
+    }
+    if (withEra) {
+      app.querySelectorAll("[data-era]").forEach((b) => {
+        b.onclick = () => {
+          state.era = b.dataset.era;
+          renderLibrary("history");
+        };
+      });
+    }
+  }
+
   function wireNavAndCards() {
     app.querySelectorAll("[data-tab]").forEach((b) => {
       b.onclick = () => {
         state.tab = b.dataset.tab;
         state.lessonId = null;
         state.showQuiz = false;
+        state.search = "";
         setSecure(false);
+        render();
+      };
+    });
+    app.querySelectorAll("[data-fav]").forEach((btn) => {
+      btn.onclick = (e) => {
+        e.stopPropagation();
+        toggleFav(btn.dataset.fav);
         render();
       };
     });
@@ -470,9 +628,6 @@
   }
 
   function render() {
-    if (state.toast) {
-      // keep going; toast overlay added below
-    }
     if (!state.progress.hasOnboarded) {
       renderOnboarding();
     } else if (state.showQuiz && state.lessonId) {
@@ -484,6 +639,7 @@
       setSecure(false);
       if (state.tab === "history") renderLibrary("history");
       else if (state.tab === "cosmos") renderLibrary("cosmos");
+      else if (state.tab === "saved") renderSaved();
       else if (state.tab === "progress") renderProgress();
       else renderToday();
     }
