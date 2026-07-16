@@ -92,9 +92,12 @@ def main() -> None:
             json.dumps(catalog, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
         )
         print(f"Wrote {ANDROID_ASSETS / 'lessons.json'}")
+        if facts_path.exists():
+            (ANDROID_ASSETS / "daily_facts.json").write_bytes(facts_path.read_bytes())
+            print(f"Wrote {ANDROID_ASSETS / 'daily_facts.json'}")
 
     n = len(catalog["lessons"])
-    print(f"Synced {n} lessons → Resources + web/content.js")
+    print(f"Synced {n} lessons → Resources + web/content.js + Android assets")
 
 
 if __name__ == "__main__":

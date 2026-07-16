@@ -45,6 +45,8 @@ data class Lesson(
     val timeline: List<TimelineEvent>,
     val keyFigures: List<KeyFigure>,
     val quiz: List<QuizQuestion>,
+    val era: String? = null,
+    val region: String? = null,
 ) {
     fun contentFor(depth: LessonDepth): String = when (depth) {
         LessonDepth.OVERVIEW -> overviewContent

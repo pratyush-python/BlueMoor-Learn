@@ -184,7 +184,11 @@ fun MainShell(
 
 @Composable
 fun TodayScreen(progress: UserProgress, onOpenLesson: (Lesson) -> Unit) {
-    val recommended = remember(progress) { ContentRepository.recommended(progress) }
+    val lessonCount = ContentRepository.allLessons.size
+    val recommended = remember(progress, lessonCount) {
+        if (lessonCount == 0) null else ContentRepository.recommended(progress)
+    }
+    val fact = remember { ContentRepository.todaysFact() }
     Column(
         Modifier
             .fillMaxSize()
@@ -194,7 +198,11 @@ fun TodayScreen(progress: UserProgress, onOpenLesson: (Lesson) -> Unit) {
         Text("Blue Moor - Learn", color = CosmosCyan, fontSize = 14.sp, fontWeight = FontWeight.Medium)
         Text(greeting(), color = Color.White, fontSize = 32.sp, fontWeight = FontWeight.SemiBold)
         Text(
-            "Continue your journey through history and the cosmos.",
+            if (lessonCount > 0) {
+                "$lessonCount lessons from shared catalog · history & cosmos."
+            } else {
+                "No lessons loaded. Check assets/lessons.json."
+            },
             color = TextSecondary,
             fontSize = 15.sp,
         )
@@ -243,10 +251,28 @@ fun TodayScreen(progress: UserProgress, onOpenLesson: (Lesson) -> Unit) {
                 }
             }
         }
+        if (fact != null) {
+            Spacer(modifier = Modifier.height(16.dp))
+            Card(
+                colors = CardDefaults.cardColors(containerColor = Surface),
+                shape = RoundedCornerShape(16.dp),
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Column(Modifier.padding(18.dp)) {
+                    Text("TODAY IN CURIOSITY", color = HistoryGold, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                    Text(fact.title, color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 6.dp))
+                    Text(fact.text, color = TextSecondary, fontSize = 14.sp, modifier = Modifier.padding(top = 6.dp))
+                }
+            }
+        }
         Spacer(modifier = Modifier.height(24.dp))
         Text("Recommended for you", color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
         Spacer(modifier = Modifier.height(12.dp))
-        LessonCard(recommended, showCategory = true) { onOpenLesson(recommended) }
+        if (recommended != null) {
+            LessonCard(recommended, showCategory = true) { onOpenLesson(recommended) }
+        } else {
+            Text("Catalog empty.", color = TextTertiary)
+        }
     }
 }
 
@@ -359,6 +385,10 @@ fun LessonCard(
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(lesson.title, color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
                 Text(lesson.eraOrTopic, color = TextSecondary, fontSize = 13.sp)
+                val tags = listOfNotNull(lesson.era, lesson.region).joinToString(" · ")
+                if (tags.isNotBlank()) {
+                    Text(tags, color = TextTertiary, fontSize = 11.sp, modifier = Modifier.padding(top = 4.dp))
+                }
                 Text(
                     lesson.subtitle,
                     color = TextTertiary,
