@@ -145,16 +145,19 @@ struct TodayView: View {
     }
     
     private var quickStats: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text("This Week")
+        let stats = progressService?.weekStats()
+        return VStack(alignment: .leading, spacing: 16) {
+            Text("Your progress")
                 .font(.headline)
                 .foregroundStyle(BlueMoorTheme.textSecondary)
-            
-            // Placeholder stats
+
             VStack(alignment: .leading, spacing: 12) {
-                statRow(label: "Lessons Started", value: "3")
-                statRow(label: "Depths Completed", value: "5")
-                statRow(label: "Quiz Accuracy", value: "87%")
+                statRow(label: "Lessons started", value: "\(stats?.lessonsStarted ?? 0)")
+                statRow(label: "Depths completed", value: "\(stats?.depthsCompleted ?? 0)")
+                statRow(
+                    label: "Quiz accuracy",
+                    value: stats?.quizAccuracyPercent.map { "\($0)%" } ?? "—"
+                )
             }
         }
         .padding(24)
@@ -177,34 +180,32 @@ struct TodayView: View {
     private var todayInSpace: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
-                Image(systemName: "newspaper")
-                Text("Today in Space")
+                Image(systemName: "sparkles")
+                Text("Today in curiosity")
                     .font(.headline)
             }
-            .foregroundStyle(BlueMoorTheme.cosmosCyan)
-            
-            VStack(alignment: .leading, spacing: 14) {
-                newsItem(title: "JWST Detects Carbon Dioxide in Exoplanet Atmosphere", source: "NASA")
-                newsItem(title: "SpaceX Successfully Launches Crew-9 to ISS", source: "SpaceX")
-                newsItem(title: "China's Chang'e-6 Returns First Far-Side Lunar Samples", source: "CNSA")
+            .foregroundStyle(BlueMoorTheme.historyGold)
+
+            if let fact = ContentService.shared.todaysFact() {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(fact.title)
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(.white)
+                    Text(fact.text)
+                        .font(.callout)
+                        .foregroundStyle(BlueMoorTheme.textSecondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            } else {
+                Text("Open a history lesson to continue your streak.")
+                    .font(.callout)
+                    .foregroundStyle(BlueMoorTheme.textSecondary)
             }
         }
         .padding(24)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(BlueMoorTheme.surface)
         .clipShape(RoundedRectangle(cornerRadius: BlueMoorTheme.cardCornerRadius))
-    }
-    
-    private func newsItem(title: String, source: String) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(title)
-                .font(.subheadline.weight(.medium))
-                .foregroundStyle(.white)
-                .lineLimit(2)
-            Text(source)
-                .font(.caption)
-                .foregroundStyle(BlueMoorTheme.textTertiary)
-        }
     }
     
     private func setup() {
@@ -225,47 +226,59 @@ struct TodayView: View {
 struct LessonCard: View {
     let lesson: Lesson
     var showCategory: Bool = false
-    
+    var completedDepths: Int = 0
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            // Hero area with gradient + icon
             ZStack(alignment: .bottomLeading) {
                 LinearGradient(
-                    colors: lesson.category == .history 
-                        ? [Color(hex: "#3D2B1F"), BlueMoorTheme.background] 
+                    colors: lesson.category == .history
+                        ? [Color(hex: "#3D2B1F"), BlueMoorTheme.background]
                         : [Color(hex: "#1A2A4A"), BlueMoorTheme.background],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
                 .frame(height: 140)
-                
+
                 Image(systemName: lesson.category.icon)
                     .font(.system(size: 52, weight: .light))
                     .foregroundStyle(lesson.category.accentColor.opacity(0.25))
                     .padding(.leading, 24)
                     .padding(.bottom, 20)
-                
-                if showCategory {
-                    Label(lesson.category.rawValue, systemImage: lesson.category.icon)
-                        .font(.caption.weight(.medium))
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 5)
-                        .background(.ultraThinMaterial)
-                        .clipShape(Capsule())
-                        .padding(16)
+
+                HStack {
+                    if showCategory {
+                        Label(lesson.category.rawValue, systemImage: lesson.category.icon)
+                            .font(.caption.weight(.medium))
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 5)
+                            .background(.ultraThinMaterial)
+                            .clipShape(Capsule())
+                    }
+                    Spacer()
+                    if completedDepths > 0 {
+                        Text("\(completedDepths)/3 depths")
+                            .font(.caption.weight(.semibold))
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 5)
+                            .background(BlueMoorTheme.success.opacity(0.2))
+                            .foregroundStyle(BlueMoorTheme.success)
+                            .clipShape(Capsule())
+                    }
                 }
+                .padding(16)
             }
-            
+
             VStack(alignment: .leading, spacing: 8) {
                 Text(lesson.title)
                     .font(.title3.weight(.semibold))
                     .foregroundStyle(.white)
                     .lineLimit(2)
-                
+
                 Text(lesson.eraOrTopic)
                     .font(.subheadline)
                     .foregroundStyle(BlueMoorTheme.textSecondary)
-                
+
                 Text(lesson.subtitle)
                     .font(.callout)
                     .foregroundStyle(BlueMoorTheme.textTertiary)

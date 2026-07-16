@@ -56,8 +56,10 @@ struct QuizQuestion: Codable, Identifiable, Hashable {
 
 // MARK: - Main Lesson Model (loaded from JSON)
 
-struct Lesson: Codable, Identifiable, Hashable {
+struct Lesson: Identifiable, Hashable {
     let id: UUID
+    /// Stable string key from shared JSON (`roman-republic`, etc.)
+    let contentId: String
     let title: String
     let category: LessonCategory
     let subtitle: String            // Short tagline
@@ -93,6 +95,7 @@ struct Lesson: Codable, Identifiable, Hashable {
     
     init(
         id: UUID? = nil,
+        contentId: String? = nil,
         title: String,
         category: LessonCategory,
         subtitle: String,
@@ -107,8 +110,10 @@ struct Lesson: Codable, Identifiable, Hashable {
         quiz: [QuizQuestion],
         heroImageName: String? = nil
     ) {
-        // Prefer stable IDs from ContentService so progress survives relaunches.
-        self.id = id ?? UUID()
+        let key = contentId ?? title.lowercased().replacingOccurrences(of: " ", with: "-")
+        self.contentId = key
+        // Prefer stable IDs from content key so progress survives relaunches.
+        self.id = id ?? Lesson.stableId(key)
         self.title = title
         self.category = category
         self.subtitle = subtitle
@@ -152,6 +157,7 @@ extension Lesson {
     static var sampleHistoryRoman: Lesson {
         Lesson(
             id: Lesson.stableId("roman-republic"),
+            contentId: "roman-republic",
             title: "The Roman Republic",
             category: .history,
             subtitle: "From Kingdom to Republic — The Birth of Roman Liberty",
@@ -226,6 +232,7 @@ extension Lesson {
     static var sampleCosmosSolar: Lesson {
         Lesson(
             id: Lesson.stableId("solar-system"),
+            contentId: "solar-system",
             title: "Our Solar System",
             category: .cosmos,
             subtitle: "Eight Worlds, One Star, Countless Stories",

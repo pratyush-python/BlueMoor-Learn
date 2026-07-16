@@ -3,23 +3,36 @@ import SwiftData
 
 struct LessonView: View {
     let lesson: Lesson
-    
+
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-    
+
     @State private var currentDepth: LessonDepth = .standard
     @State private var showQuiz = false
-    @State private var hasCompletedCurrentDepth = false
+    @State private var lastXPAward: Int?
+    @State private var toastMessage: String?
     @Query private var profiles: [UserProfile]
+    @Query private var allProgress: [LessonProgress]
     @State private var progressService: ProgressService?
-    
+
     private var profile: UserProfile {
         profiles.first ?? UserProfile()
     }
-    
+
+    private var lessonProgress: LessonProgress? {
+        allProgress.first { $0.contentId == lesson.contentId || $0.lessonId == lesson.id }
+    }
+
+    private var hasCompletedCurrentDepth: Bool {
+        lessonProgress?.completedDepths.contains(currentDepth) ?? false
+    }
+
+    private var completedDepthCount: Int {
+        lessonProgress?.completedDepths.count ?? 0
+    }
+
     var body: some View {
         VStack(spacing: 0) {
-            // Custom Navigation Bar
             HStack {
                 Button {
                     dismiss()
@@ -27,10 +40,9 @@ struct LessonView: View {
                     Label("Back", systemImage: "chevron.left")
                 }
                 .buttonStyle(.borderless)
-                
+
                 Spacer()
-                
-                // Depth Selector (beautiful segmented control)
+
                 Picker("Depth", selection: $currentDepth) {
                     ForEach(LessonDepth.allCases) { depth in
                         Label(depth.rawValue, systemImage: depth.systemImage)
@@ -39,12 +51,9 @@ struct LessonView: View {
                 }
                 .pickerStyle(.segmented)
                 .frame(width: 380)
-                .onChange(of: currentDepth) { _, newValue in
-                    checkIfDepthCompleted(newValue)
-                }
-                
+
                 Spacer()
-                
+
                 Button {
                     showQuiz = true
                 } label: {
@@ -56,26 +65,18 @@ struct LessonView: View {
             .padding(.horizontal, 24)
             .padding(.vertical, 16)
             .background(.ultraThinMaterial)
-            
+
             ScrollView {
                 VStack(alignment: .leading, spacing: 32) {
-                    // Hero Header
                     heroHeader
-                    
-                    // Content
+                    progressStrip
                     contentSection
-                    
-                    // Timeline
                     if !lesson.timeline.isEmpty {
                         timelineSection
                     }
-                    
-                    // Key Figures
                     if !lesson.keyFigures.isEmpty {
                         keyFiguresSection
                     }
-                    
-                    // Completion CTA
                     completionSection
                 }
                 .padding(.horizontal, 48)
@@ -83,18 +84,32 @@ struct LessonView: View {
             }
         }
         .background(BlueMoorTheme.background)
+        .overlay(alignment: .bottom) {
+            if let toastMessage {
+                Text(toastMessage)
+                    .font(.headline)
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 12)
+                    .background(BlueMoorTheme.surfaceElevated)
+                    .foregroundStyle(BlueMoorTheme.success)
+                    .clipShape(Capsule())
+                    .padding(.bottom, 28)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
+        }
         .sheet(isPresented: $showQuiz) {
             QuizView(lesson: lesson) { score in
-                // Record quiz result
                 if let service = progressService {
                     service.recordQuizResult(score: score, for: lesson, profile: profile)
+                    let pct = Int(score * 100)
+                    showToast("Quiz saved · \(pct)%")
                 }
             }
         }
         .onAppear(perform: setup)
         .navigationTitle(lesson.title)
     }
-    
+
     private var heroHeader: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 12) {
@@ -105,48 +120,78 @@ struct LessonView: View {
                     .background(lesson.category.accentColor.opacity(0.15))
                     .foregroundStyle(lesson.category.accentColor)
                     .clipShape(Capsule())
-                
+
                 Text(lesson.eraOrTopic)
                     .font(.subheadline)
                     .foregroundStyle(BlueMoorTheme.textSecondary)
             }
-            
+
             Text(lesson.title)
                 .font(.system(size: 36, weight: .bold, design: .serif))
                 .foregroundStyle(.white)
-            
+
             Text(lesson.subtitle)
                 .font(.title3)
                 .foregroundStyle(BlueMoorTheme.textSecondary)
         }
     }
-    
+
+    private var progressStrip: some View {
+        HStack(spacing: 16) {
+            ForEach(LessonDepth.allCases) { depth in
+                let done = lessonProgress?.completedDepths.contains(depth) ?? false
+                HStack(spacing: 6) {
+                    Image(systemName: done ? "checkmark.circle.fill" : "circle")
+                        .foregroundStyle(done ? BlueMoorTheme.success : BlueMoorTheme.textTertiary)
+                    Text(depth.rawValue)
+                        .font(.caption.weight(.medium))
+                        .foregroundStyle(done ? .white : BlueMoorTheme.textSecondary)
+                }
+            }
+            Spacer()
+            Text("\(completedDepthCount)/\(LessonDepth.allCases.count) depths")
+                .font(.caption)
+                .foregroundStyle(BlueMoorTheme.textTertiary)
+            if let quiz = lessonProgress?.bestQuizScore {
+                Text("Quiz best \(Int(quiz * 100))%")
+                    .font(.caption)
+                    .foregroundStyle(BlueMoorTheme.cosmosCyan)
+            }
+        }
+        .padding(16)
+        .background(BlueMoorTheme.surface)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+
     private var contentSection: some View {
         VStack(alignment: .leading, spacing: 20) {
             HStack {
                 Text(currentDepth.rawValue)
                     .font(.title2.weight(.semibold))
                     .foregroundStyle(lesson.category.accentColor)
-                
+
+                if hasCompletedCurrentDepth {
+                    Label("Done", systemImage: "checkmark.seal.fill")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(BlueMoorTheme.success)
+                }
+
                 Spacer()
-                
+
                 Label("\(currentDepth.estimatedMinutes) min", systemImage: "clock")
                     .font(.caption)
                     .foregroundStyle(BlueMoorTheme.textTertiary)
             }
-            
+
             Text(currentContent)
                 .font(.body)
                 .lineSpacing(8)
                 .foregroundStyle(BlueMoorTheme.textPrimary)
                 .textSelection(.enabled)
-            
-            // "Go Deeper" prompt
+
             if currentDepth != .deep {
                 Button {
                     withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                        currentDepth = LessonDepth.allCases.first { $0 == currentDepth } ?? .standard
-                        // Advance to next depth
                         if let currentIndex = LessonDepth.allCases.firstIndex(of: currentDepth),
                            currentIndex < LessonDepth.allCases.count - 1 {
                             currentDepth = LessonDepth.allCases[currentIndex + 1]
@@ -165,7 +210,7 @@ struct LessonView: View {
         .background(BlueMoorTheme.surface)
         .clipShape(RoundedRectangle(cornerRadius: BlueMoorTheme.cardCornerRadius))
     }
-    
+
     private var currentContent: String {
         switch currentDepth {
         case .overview: return lesson.overviewContent
@@ -173,19 +218,19 @@ struct LessonView: View {
         case .deep: return lesson.deepContent
         }
     }
-    
+
     private var timelineSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Timeline")
                 .font(.title2.weight(.semibold))
-            
+
             ForEach(lesson.timeline) { event in
                 HStack(alignment: .top, spacing: 20) {
                     Text(event.year)
                         .font(.headline.monospacedDigit())
                         .foregroundStyle(lesson.category.accentColor)
                         .frame(width: 110, alignment: .trailing)
-                    
+
                     VStack(alignment: .leading, spacing: 4) {
                         Text(event.title)
                             .font(.headline)
@@ -202,12 +247,12 @@ struct LessonView: View {
         .background(BlueMoorTheme.surface)
         .clipShape(RoundedRectangle(cornerRadius: BlueMoorTheme.cardCornerRadius))
     }
-    
+
     private var keyFiguresSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Key Figures")
                 .font(.title2.weight(.semibold))
-            
+
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 280), spacing: 16)], spacing: 16) {
                 ForEach(lesson.keyFigures) { figure in
                     VStack(alignment: .leading, spacing: 8) {
@@ -221,7 +266,7 @@ struct LessonView: View {
                             .font(.callout)
                             .foregroundStyle(BlueMoorTheme.textSecondary)
                             .lineLimit(3)
-                        
+
                         Text(figure.significance)
                             .font(.caption)
                             .foregroundStyle(BlueMoorTheme.textTertiary)
@@ -234,18 +279,31 @@ struct LessonView: View {
             }
         }
     }
-    
+
     private var completionSection: some View {
         VStack(spacing: 12) {
             if hasCompletedCurrentDepth {
-                Label("Depth Completed • +\(currentDepth.xpReward) XP", systemImage: "checkmark.circle.fill")
-                    .foregroundStyle(BlueMoorTheme.success)
-                    .font(.headline)
+                Label(
+                    "Depth completed · +\(currentDepth.xpReward) XP earned",
+                    systemImage: "checkmark.circle.fill"
+                )
+                .foregroundStyle(BlueMoorTheme.success)
+                .font(.headline)
+
+                Button {
+                    showQuiz = true
+                } label: {
+                    Text("Take quiz for this lesson")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.large)
             } else {
                 Button {
                     completeCurrentDepth()
                 } label: {
-                    Text("Mark as Completed & Earn \(currentDepth.xpReward) XP")
+                    Text("Mark \(currentDepth.rawValue) complete · +\(currentDepth.xpReward) XP")
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                 }
@@ -253,35 +311,43 @@ struct LessonView: View {
                 .tint(lesson.category.accentColor)
                 .controlSize(.large)
             }
-            
-            Text("Complete all depths and the quiz to fully master this lesson.")
+
+            Text("Progress is saved on this Mac. Complete all depths and the quiz to master the lesson.")
                 .font(.caption)
                 .foregroundStyle(BlueMoorTheme.textTertiary)
+                .multilineTextAlignment(.center)
         }
         .padding(.top, 20)
     }
-    
+
     private func setup() {
-        progressService = ProgressService(modelContext: modelContext)
+        let service = ProgressService(modelContext: modelContext)
+        progressService = service
+        // Ensure profile exists in store (not a detached instance)
+        _ = service.fetchOrCreateProfile()
         currentDepth = profile.preferredDepth
-        checkIfDepthCompleted(currentDepth)
     }
-    
-    private func checkIfDepthCompleted(_ depth: LessonDepth) {
-        // In a real implementation we would query LessonProgress
-        // For starter we keep simple state
-        hasCompletedCurrentDepth = false // Would check persisted state
-    }
-    
+
     private func completeCurrentDepth() {
         guard let service = progressService else { return }
-        
-        let xp = service.completeDepth(currentDepth, for: lesson, profile: profile)
-        hasCompletedCurrentDepth = true
-        
-        // Nice haptic/animation feedback could go here
+        // Use profile from store
+        let liveProfile = service.fetchOrCreateProfile()
+        let xp = service.completeDepth(currentDepth, for: lesson, profile: liveProfile)
+        if xp > 0 {
+            showToast("+\(xp) XP · \(currentDepth.rawValue) complete")
+        } else {
+            showToast("Already completed")
+        }
+    }
+
+    private func showToast(_ message: String) {
         withAnimation {
-            // Could show a toast "+\(xp) XP"
+            toastMessage = message
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            withAnimation {
+                toastMessage = nil
+            }
         }
     }
 }

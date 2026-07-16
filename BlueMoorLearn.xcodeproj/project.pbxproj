@@ -23,6 +23,8 @@
 		5FB3D7360CC44D1A8B320254 /* SettingsView.swift in Sources/Resources */ = {isa = PBXBuildFile; fileRef = BF8D25D56CEA433CB35031A3 /* SettingsView.swift */; };
 		50F33C494A9A43858CCF8F86 /* TodayView.swift in Sources/Resources */ = {isa = PBXBuildFile; fileRef = 2D45DA1EBFE44B198C8EE997 /* TodayView.swift */; };
 		50A80D0339104F8F83E43E24 /* Assets.xcassets in Sources/Resources */ = {isa = PBXBuildFile; fileRef = 06E8105ADACA4FECA85B0267 /* Assets.xcassets */; };
+		C3D4E5F60718293A4B5C6D7E /* lessons.json in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60718293A4B5C /* lessons.json */; };
+		D4E5F60718293A4B5C6D7E8F /* daily_facts.json in Resources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F60718293A4B5C6D /* daily_facts.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +47,8 @@
 		2D45DA1EBFE44B198C8EE997 /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
 		06E8105ADACA4FECA85B0267 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A8687BED21BE4D5D92C74BDC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		A1B2C3D4E5F60718293A4B5C /* lessons.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lessons.json; sourceTree = "<group>"; };
+		B2C3D4E5F60718293A4B5C6D /* daily_facts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = daily_facts.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -120,6 +124,8 @@
 		3668870501B64FEBAEF9C4B2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A1B2C3D4E5F60718293A4B5C /* lessons.json */,
+				B2C3D4E5F60718293A4B5C6D /* daily_facts.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -219,6 +225,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				50A80D0339104F8F83E43E24 /* Assets.xcassets in Resources */,
+				C3D4E5F60718293A4B5C6D7E /* lessons.json in Resources */,
+				D4E5F60718293A4B5C6D7E8F /* daily_facts.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

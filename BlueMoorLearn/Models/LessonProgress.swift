@@ -5,18 +5,21 @@ import SwiftData
 final class LessonProgress {
     var id: UUID
     var lessonId: UUID
+    /// Shared JSON content key (e.g. `roman-republic`) — survives catalog reloads.
+    var contentId: String = ""
     var lessonTitle: String
     var category: LessonCategory
     
-    var completedDepths: [LessonDepth]   // Which depths user has finished
-    var bestQuizScore: Double?           // Percentage 0-1
-    var totalXPEarned: Int
-    var lastStudied: Date
-    var timesCompleted: Int
+    var completedDepths: [LessonDepth] = []
+    var bestQuizScore: Double?
+    var totalXPEarned: Int = 0
+    var lastStudied: Date = Date()
+    var timesCompleted: Int = 0
     
     init(lesson: Lesson) {
         self.id = UUID()
         self.lessonId = lesson.id
+        self.contentId = lesson.contentId
         self.lessonTitle = lesson.title
         self.category = lesson.category
         self.completedDepths = []
@@ -26,12 +29,17 @@ final class LessonProgress {
         self.timesCompleted = 0
     }
     
-    func markDepthCompleted(_ depth: LessonDepth, xpEarned: Int) {
-        if !completedDepths.contains(depth) {
+    /// Returns true if this depth was newly completed (XP should be awarded).
+    @discardableResult
+    func markDepthCompleted(_ depth: LessonDepth, xpEarned: Int) -> Bool {
+        let isNew = !completedDepths.contains(depth)
+        if isNew {
             completedDepths.append(depth)
+            totalXPEarned += xpEarned
+            timesCompleted += 1
         }
-        totalXPEarned += xpEarned
         lastStudied = Date()
+        return isNew
     }
     
     func updateQuizScore(_ score: Double) {

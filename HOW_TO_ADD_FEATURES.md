@@ -1,5 +1,15 @@
 # How to add more features & history content
 
+## Single source of truth (preferred)
+
+1. Edit **`content/lessons.json`** (and optionally `content/daily_facts.json`).
+2. Run **`./scripts/sync-content.sh`**
+3. Rebuild Xcode (⌘R), redeploy web if needed, rebuild Android if needed.
+
+See `content/README.md` for the schema.
+
+---
+
 Blue Moor - Learn is designed so **content and features can grow without a rewrite**.
 
 ## 1. Add a history (or cosmos) lesson — fastest win
