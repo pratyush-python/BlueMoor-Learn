@@ -59,7 +59,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A7EADC48DA304B1C87C9FB3A /* Aether */ = {
+		A7EADC48DA304B1C87C9FB3A /* Aetherius */ = {
 			isa = PBXGroup;
 			children = (
 				F96C3F63284A46CD8C9A4F61,
@@ -127,7 +127,7 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		2863BA7C74CC4FC6A49680FF /* Aether */ = {
+		2863BA7C74CC4FC6A49680FF /* Aetherius */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5F9C9862D7864ACCB38533B5 /* Build configuration list for PBXNativeTarget "Aetherius" */;
 			buildPhases = (
@@ -172,7 +172,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2863BA7C74CC4FC6A49680FF /* Aether */,
+				2863BA7C74CC4FC6A49680FF /* Aetherius */,
 			);
 		};
 /* End PBXProject section */
