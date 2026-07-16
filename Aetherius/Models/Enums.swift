@@ -102,7 +102,7 @@ extension Color {
 
 // MARK: - Design System Colors
 
-struct AetherTheme {
+struct AetheriusTheme {
     static let background = Color(hex: "#0A0E1A")          // Deep space navy
     static let surface = Color(hex: "#121826")             // Slightly lighter card surface
     static let surfaceElevated = Color(hex: "#1A2233")

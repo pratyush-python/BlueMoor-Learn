@@ -17,9 +17,9 @@ struct ProgressDashboardView: View {
                 
                 // Big stats
                 HStack(spacing: 24) {
-                    statCard(title: "Total XP", value: "\(profile.totalXP)", icon: "star.fill", color: AetherTheme.warning)
-                    statCard(title: "Current Level", value: "\(profile.level)", icon: "medal.fill", color: AetherTheme.cosmosCyan)
-                    statCard(title: "Longest Streak", value: "\(profile.longestStreak)", icon: "flame.fill", color: AetherTheme.historyGold)
+                    statCard(title: "Total XP", value: "\(profile.totalXP)", icon: "star.fill", color: AetheriusTheme.warning)
+                    statCard(title: "Current Level", value: "\(profile.level)", icon: "medal.fill", color: AetheriusTheme.cosmosCyan)
+                    statCard(title: "Longest Streak", value: "\(profile.longestStreak)", icon: "flame.fill", color: AetheriusTheme.historyGold)
                 }
                 
                 // Mastery section
@@ -29,7 +29,7 @@ struct ProgressDashboardView: View {
                     
                     if allProgress.isEmpty {
                         Text("Complete lessons to see your mastery heatmap and progress here.")
-                            .foregroundStyle(AetherTheme.textSecondary)
+                            .foregroundStyle(AetheriusTheme.textSecondary)
                     } else {
                         ForEach(allProgress) { progress in
                             HStack {
@@ -44,12 +44,12 @@ struct ProgressDashboardView: View {
                     }
                 }
                 .padding(24)
-                .background(AetherTheme.surface)
-                .clipShape(RoundedRectangle(cornerRadius: AetherTheme.cardCornerRadius))
+                .background(AetheriusTheme.surface)
+                .clipShape(RoundedRectangle(cornerRadius: AetheriusTheme.cardCornerRadius))
             }
             .padding(40)
         }
-        .background(AetherTheme.background)
+        .background(AetheriusTheme.background)
     }
     
     private func statCard(title: String, value: String, icon: String, color: Color) -> some View {
@@ -64,7 +64,7 @@ struct ProgressDashboardView: View {
         }
         .padding(24)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(AetherTheme.surface)
-        .clipShape(RoundedRectangle(cornerRadius: AetherTheme.cardCornerRadius))
+        .background(AetheriusTheme.surface)
+        .clipShape(RoundedRectangle(cornerRadius: AetheriusTheme.cardCornerRadius))
     }
 }

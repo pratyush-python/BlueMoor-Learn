@@ -35,7 +35,7 @@ struct TodayView: View {
             .padding(40)
             .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .background(AetherTheme.background)
+        .background(AetheriusTheme.background)
         .onAppear(perform: setup)
     }
     
@@ -47,7 +47,7 @@ struct TodayView: View {
             
             Text("Continue your journey through history and the cosmos.")
                 .font(.title3)
-                .foregroundStyle(AetherTheme.textSecondary)
+                .foregroundStyle(AetheriusTheme.textSecondary)
         }
     }
     
@@ -66,12 +66,12 @@ struct TodayView: View {
             VStack(spacing: 12) {
                 ZStack {
                     Circle()
-                        .stroke(AetherTheme.surfaceElevated, lineWidth: 12)
+                        .stroke(AetheriusTheme.surfaceElevated, lineWidth: 12)
                         .frame(width: 110, height: 110)
                     
                     Circle()
                         .trim(from: 0, to: min(CGFloat(profile.currentStreak) / 30.0, 1.0))
-                        .stroke(AetherTheme.historyGold, style: StrokeStyle(lineWidth: 12, lineCap: .round))
+                        .stroke(AetheriusTheme.historyGold, style: StrokeStyle(lineWidth: 12, lineCap: .round))
                         .frame(width: 110, height: 110)
                         .rotationEffect(.degrees(-90))
                     
@@ -81,13 +81,13 @@ struct TodayView: View {
                             .foregroundStyle(.white)
                         Text("day streak")
                             .font(.caption)
-                            .foregroundStyle(AetherTheme.textSecondary)
+                            .foregroundStyle(AetheriusTheme.textSecondary)
                     }
                 }
                 
                 Text("Longest: \(profile.longestStreak) days")
                     .font(.caption)
-                    .foregroundStyle(AetherTheme.textTertiary)
+                    .foregroundStyle(AetheriusTheme.textTertiary)
             }
             
             // Level & XP
@@ -101,25 +101,25 @@ struct TodayView: View {
                     
                     Text("\(profile.totalXP) XP")
                         .font(.headline.monospacedDigit())
-                        .foregroundStyle(AetherTheme.cosmosCyan)
+                        .foregroundStyle(AetheriusTheme.cosmosCyan)
                 }
                 
                 ProgressView(value: profile.progressToNextLevel)
-                    .tint(AetherTheme.cosmosCyan)
+                    .tint(AetheriusTheme.cosmosCyan)
                     .frame(height: 8)
-                    .background(AetherTheme.surfaceElevated)
+                    .background(AetheriusTheme.surfaceElevated)
                     .clipShape(Capsule())
                 
                 Text("\(profile.xpForNextLevel) XP to Level \(profile.level + 1)")
                     .font(.caption)
-                    .foregroundStyle(AetherTheme.textTertiary)
+                    .foregroundStyle(AetheriusTheme.textTertiary)
             }
             .padding(.vertical, 8)
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding(28)
-        .background(AetherTheme.surface)
-        .clipShape(RoundedRectangle(cornerRadius: AetherTheme.cardCornerRadius, style: .continuous))
+        .background(AetheriusTheme.surface)
+        .clipShape(RoundedRectangle(cornerRadius: AetheriusTheme.cardCornerRadius, style: .continuous))
     }
     
     private func recommendedSection(lesson: Lesson) -> some View {
@@ -132,7 +132,7 @@ struct TodayView: View {
                     // Could navigate to library
                 }
                 .buttonStyle(.borderless)
-                .foregroundStyle(AetherTheme.cosmosCyan)
+                .foregroundStyle(AetheriusTheme.cosmosCyan)
             }
             
             Button {
@@ -148,7 +148,7 @@ struct TodayView: View {
         VStack(alignment: .leading, spacing: 16) {
             Text("This Week")
                 .font(.headline)
-                .foregroundStyle(AetherTheme.textSecondary)
+                .foregroundStyle(AetheriusTheme.textSecondary)
             
             // Placeholder stats
             VStack(alignment: .leading, spacing: 12) {
@@ -159,14 +159,14 @@ struct TodayView: View {
         }
         .padding(24)
         .frame(maxWidth: 280, alignment: .leading)
-        .background(AetherTheme.surface)
-        .clipShape(RoundedRectangle(cornerRadius: AetherTheme.cardCornerRadius))
+        .background(AetheriusTheme.surface)
+        .clipShape(RoundedRectangle(cornerRadius: AetheriusTheme.cardCornerRadius))
     }
     
     private func statRow(label: String, value: String) -> some View {
         HStack {
             Text(label)
-                .foregroundStyle(AetherTheme.textSecondary)
+                .foregroundStyle(AetheriusTheme.textSecondary)
             Spacer()
             Text(value)
                 .fontWeight(.semibold)
@@ -181,7 +181,7 @@ struct TodayView: View {
                 Text("Today in Space")
                     .font(.headline)
             }
-            .foregroundStyle(AetherTheme.cosmosCyan)
+            .foregroundStyle(AetheriusTheme.cosmosCyan)
             
             VStack(alignment: .leading, spacing: 14) {
                 newsItem(title: "JWST Detects Carbon Dioxide in Exoplanet Atmosphere", source: "NASA")
@@ -191,8 +191,8 @@ struct TodayView: View {
         }
         .padding(24)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(AetherTheme.surface)
-        .clipShape(RoundedRectangle(cornerRadius: AetherTheme.cardCornerRadius))
+        .background(AetheriusTheme.surface)
+        .clipShape(RoundedRectangle(cornerRadius: AetheriusTheme.cardCornerRadius))
     }
     
     private func newsItem(title: String, source: String) -> some View {
@@ -203,7 +203,7 @@ struct TodayView: View {
                 .lineLimit(2)
             Text(source)
                 .font(.caption)
-                .foregroundStyle(AetherTheme.textTertiary)
+                .foregroundStyle(AetheriusTheme.textTertiary)
         }
     }
     
@@ -232,8 +232,8 @@ struct LessonCard: View {
             ZStack(alignment: .bottomLeading) {
                 LinearGradient(
                     colors: lesson.category == .history 
-                        ? [Color(hex: "#3D2B1F"), AetherTheme.background] 
-                        : [Color(hex: "#1A2A4A"), AetherTheme.background],
+                        ? [Color(hex: "#3D2B1F"), AetheriusTheme.background] 
+                        : [Color(hex: "#1A2A4A"), AetheriusTheme.background],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
@@ -264,20 +264,20 @@ struct LessonCard: View {
                 
                 Text(lesson.eraOrTopic)
                     .font(.subheadline)
-                    .foregroundStyle(AetherTheme.textSecondary)
+                    .foregroundStyle(AetheriusTheme.textSecondary)
                 
                 Text(lesson.subtitle)
                     .font(.callout)
-                    .foregroundStyle(AetherTheme.textTertiary)
+                    .foregroundStyle(AetheriusTheme.textTertiary)
                     .lineLimit(2)
                     .padding(.top, 4)
             }
             .padding(20)
-            .background(AetherTheme.surfaceElevated)
+            .background(AetheriusTheme.surfaceElevated)
         }
-        .clipShape(RoundedRectangle(cornerRadius: AetherTheme.cardCornerRadius, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: AetheriusTheme.cardCornerRadius, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: AetherTheme.cardCornerRadius)
+            RoundedRectangle(cornerRadius: AetheriusTheme.cardCornerRadius)
                 .strokeBorder(Color.white.opacity(0.08), lineWidth: 1)
         )
     }

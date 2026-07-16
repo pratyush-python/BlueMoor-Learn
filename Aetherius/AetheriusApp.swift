@@ -3,7 +3,7 @@ import SwiftData
 import AppKit
 
 @main
-struct AetherApp: App {
+struct AetheriusApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             UserProfile.self,
@@ -79,7 +79,7 @@ struct AetherApp: App {
             
             // Help
             CommandGroup(replacing: .help) {
-                Button("Aether Help") {
+                Button("Aetherius Help") {
                     // Open help or about
                 }
             }
@@ -129,7 +129,7 @@ struct MainTabView: View {
                 }
             }
             .listStyle(.sidebar)
-            .navigationTitle("Aether")
+            .navigationTitle("Aetherius")
             .frame(minWidth: 220)
         } detail: {
             // Detail content based on selection

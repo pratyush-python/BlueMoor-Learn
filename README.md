@@ -1,4 +1,4 @@
-# Aether
+# Aetherius
 
 **History. Cosmos. Mastery.**
 
@@ -11,41 +11,36 @@ A native **macOS** learning app (SwiftUI + SwiftData) that gamifies journeys thr
 
 ## Open & run
 
-1. Open `Aether.xcodeproj` in Xcode  
-2. Scheme: **Aether** · Destination: **My Mac**  
+1. Open `Aetherius.xcodeproj` in Xcode  
+2. Scheme: **Aetherius** · Destination: **My Mac**  
 3. Press **⌘R**
-
-Or from the terminal:
 
 ```bash
 export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer
-cd /path/to/Aether
-xcodebuild -project Aether.xcodeproj -scheme Aether -destination 'platform=macOS' build
-open build/... # or just Run from Xcode
+cd /path/to/Aetherius
+xcodebuild -project Aetherius.xcodeproj -scheme Aetherius -destination 'platform=macOS' build
 ```
 
 ## Project layout
 
 ```
-Aether/
-├── AetherApp.swift          # @main + MainTabView (sidebar navigation)
-├── Models/                  # Lesson content + SwiftData (UserProfile, LessonProgress)
-├── Views/                   # Today, History, Cosmos, Lesson, Quiz, Onboarding, Settings, …
-├── Services/                # ContentService, ProgressService
-├── ViewModels/              # Reserved for future expansion
-├── Resources/               # Future JSON content / assets expansion
-└── Assets.xcassets          # App icon + accent color placeholders
+Aetherius/
+├── AetheriusApp.swift       # @main + MainTabView
+├── Models/
+├── Views/
+├── Services/
+├── ViewModels/
+├── Resources/
+└── Assets.xcassets
 ```
 
-## What’s in v1
+## v1 features
 
-- SwiftUI `NavigationSplitView` shell (Today / History / Cosmos / Explore / Progress)
-- SwiftData persistence for profile, streaks, XP, lesson progress
-- Four sample lessons (History + Cosmos) with Overview / Standard / Deep content
-- Quizzes with scoring + XP
-- Onboarding for interests + preferred depth
-- Dark-mode-first theme
+- SwiftUI `NavigationSplitView` (Today / History / Cosmos / Explore / Progress)
+- SwiftData: profile, streaks, XP, lesson progress
+- Sample History + Cosmos lessons (Overview / Standard / Deep)
+- Quizzes, onboarding, dark-mode-first theme
 
 ## License
 
-Personal / educational project. Add a license of your choice if you open-source further.
+Personal / educational project.

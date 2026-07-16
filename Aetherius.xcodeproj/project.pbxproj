@@ -6,7 +6,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1E5AC052DA9745B98989F3C7 /* AetherApp.swift in Sources/Resources */ = {isa = PBXBuildFile; fileRef = A7DA0E1D74D243ACA8ECF053 /* AetherApp.swift */; };
+		1E5AC052DA9745B98989F3C7 /* AetheriusApp.swift in Sources/Resources */ = {isa = PBXBuildFile; fileRef = A7DA0E1D74D243ACA8ECF053 /* AetheriusApp.swift */; };
 		ADA95FAC685A445394AA2369 /* Enums.swift in Sources/Resources */ = {isa = PBXBuildFile; fileRef = C0DF624DE81943BFA189C7C7 /* Enums.swift */; };
 		45C8C0CA3A8F4402AC4B24C6 /* Lesson.swift in Sources/Resources */ = {isa = PBXBuildFile; fileRef = 6740374C11DF47B194DF3BD3 /* Lesson.swift */; };
 		986E7843860F42A9A6D37A47 /* LessonProgress.swift in Sources/Resources */ = {isa = PBXBuildFile; fileRef = A3E958B27F7946E89049CFAE /* LessonProgress.swift */; };
@@ -26,8 +26,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		675F960279B04AB0A381DDAC /* Aether.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Aether.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		A7DA0E1D74D243ACA8ECF053 /* AetherApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AetherApp.swift; sourceTree = "<group>"; };
+		675F960279B04AB0A381DDAC /* Aetherius.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Aetherius.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A7DA0E1D74D243ACA8ECF053 /* AetheriusApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AetheriusApp.swift; sourceTree = "<group>"; };
 		C0DF624DE81943BFA189C7C7 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		6740374C11DF47B194DF3BD3 /* Lesson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lesson.swift; sourceTree = "<group>"; };
 		A3E958B27F7946E89049CFAE /* LessonProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonProgress.swift; sourceTree = "<group>"; };
@@ -55,7 +55,7 @@
 		};
 		14EBAF0FEEEB4C66BCCDAEDB /* Products */ = {
 			isa = PBXGroup;
-			children = (675F960279B04AB0A381DDAC /* Aether.app */);
+			children = (675F960279B04AB0A381DDAC /* Aetherius.app */);
 			name = Products;
 			sourceTree = "<group>";
 		};
@@ -71,7 +71,7 @@
 				A8687BED21BE4D5D92C74BDC,
 				06E8105ADACA4FECA85B0267,
 			);
-			path = Aether;
+			path = Aetherius;
 			sourceTree = "<group>";
 		};
 		F96C3F63284A46CD8C9A4F61 /* Models */ = {
@@ -129,7 +129,7 @@
 /* Begin PBXNativeTarget section */
 		2863BA7C74CC4FC6A49680FF /* Aether */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5F9C9862D7864ACCB38533B5 /* Build configuration list for PBXNativeTarget "Aether" */;
+			buildConfigurationList = 5F9C9862D7864ACCB38533B5 /* Build configuration list for PBXNativeTarget "Aetherius" */;
 			buildPhases = (
 				78D5D912C6E9406F931DA326 /* Sources */,
 				869D22DCA5EB420AAC268FDB /* Frameworks */,
@@ -139,9 +139,9 @@
 			);
 			dependencies = (
 			);
-			name = Aether;
-			productName = Aether;
-			productReference = 675F960279B04AB0A381DDAC /* Aether.app */;
+			name = Aetherius;
+			productName = Aetherius;
+			productReference = 675F960279B04AB0A381DDAC /* Aetherius.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -159,7 +159,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D0ADE54992A744828548862E /* Build configuration list for PBXProject "Aether" */;
+			buildConfigurationList = D0ADE54992A744828548862E /* Build configuration list for PBXProject "Aetherius" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -182,7 +182,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1E5AC052DA9745B98989F3C7 /* AetherApp.swift in Sources */,
+				1E5AC052DA9745B98989F3C7 /* AetheriusApp.swift in Sources */,
 				ADA95FAC685A445394AA2369 /* Enums.swift in Sources */,
 				45C8C0CA3A8F4402AC4B24C6 /* Lesson.swift in Sources */,
 				986E7843860F42A9A6D37A47 /* LessonProgress.swift in Sources */,
@@ -270,6 +270,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Aetherius;
+				INFOPLIST_KEY_CFBundleName = Aetherius;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026. All rights reserved.";
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -278,7 +280,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.local.Aether;
+				PRODUCT_BUNDLE_IDENTIFIER = com.local.Aetherius;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -295,6 +297,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Aetherius;
+				INFOPLIST_KEY_CFBundleName = Aetherius;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026. All rights reserved.";
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -303,7 +307,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.local.Aether;
+				PRODUCT_BUNDLE_IDENTIFIER = com.local.Aetherius;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -313,7 +317,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D0ADE54992A744828548862E /* Build configuration list for PBXProject "Aether" */ = {
+		D0ADE54992A744828548862E /* Build configuration list for PBXProject "Aetherius" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				509B8F61F73746D38A5BF70B /* Debug */,
@@ -322,7 +326,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5F9C9862D7864ACCB38533B5 /* Build configuration list for PBXNativeTarget "Aether" */ = {
+		5F9C9862D7864ACCB38533B5 /* Build configuration list for PBXNativeTarget "Aetherius" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5CFF67368FC8431D9E3F2912 /* Debug */,

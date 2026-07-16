@@ -19,14 +19,14 @@ struct OnboardingView: View {
             VStack(spacing: 12) {
                 Image(systemName: "sparkles")
                     .font(.system(size: 48))
-                    .foregroundStyle(AetherTheme.cosmosCyan)
+                    .foregroundStyle(AetheriusTheme.cosmosCyan)
                 
-                Text("Welcome to Aether")
+                Text("Welcome to Aetherius")
                     .font(.system(size: 36, weight: .bold, design: .serif))
                 
                 Text("A beautiful journey through human history and the cosmos.")
                     .font(.title3)
-                    .foregroundStyle(AetherTheme.textSecondary)
+                    .foregroundStyle(AetheriusTheme.textSecondary)
             }
             .padding(.top, 60)
             .padding(.bottom, 40)
@@ -38,7 +38,7 @@ struct OnboardingView: View {
                 
                 Text("We'll personalize recommendations based on your choices.")
                     .font(.subheadline)
-                    .foregroundStyle(AetherTheme.textTertiary)
+                    .foregroundStyle(AetheriusTheme.textTertiary)
                 
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 160))], spacing: 12) {
                     ForEach(InterestTag.allCases) { tag in
@@ -75,13 +75,13 @@ struct OnboardingView: View {
                     .frame(maxWidth: 320)
             }
             .buttonStyle(.borderedProminent)
-            .tint(AetherTheme.cosmosCyan)
+            .tint(AetheriusTheme.cosmosCyan)
             .controlSize(.large)
             .disabled(selectedInterests.isEmpty)
             .padding(.bottom, 60)
         }
         .frame(width: 720, height: 620)
-        .background(AetherTheme.background)
+        .background(AetheriusTheme.background)
     }
     
     private func interestButton(tag: InterestTag) -> some View {
@@ -96,12 +96,12 @@ struct OnboardingView: View {
                 .font(.callout.weight(.medium))
                 .padding(.vertical, 14)
                 .frame(maxWidth: .infinity)
-                .background(selectedInterests.contains(tag) ? AetherTheme.cosmosCyan.opacity(0.2) : AetherTheme.surface)
-                .foregroundStyle(selectedInterests.contains(tag) ? AetherTheme.cosmosCyan : .white)
+                .background(selectedInterests.contains(tag) ? AetheriusTheme.cosmosCyan.opacity(0.2) : AetheriusTheme.surface)
+                .foregroundStyle(selectedInterests.contains(tag) ? AetheriusTheme.cosmosCyan : .white)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .overlay(
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(selectedInterests.contains(tag) ? AetherTheme.cosmosCyan : Color.clear, lineWidth: 1.5)
+                        .stroke(selectedInterests.contains(tag) ? AetheriusTheme.cosmosCyan : Color.clear, lineWidth: 1.5)
                 )
         }
         .buttonStyle(.plain)
