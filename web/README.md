@@ -9,7 +9,7 @@ For friends to try the product today, use this **web app link**.
 
 ## Live link (send this on WhatsApp)
 
-**https://pratyush-python.github.io/BlueMoor-Learn/**
+**https://pratyush-python.github.io/bluemoor-learn/**
 
 ## For testers (iPhone)
 
