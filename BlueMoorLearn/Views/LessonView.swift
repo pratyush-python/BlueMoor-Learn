@@ -133,6 +133,12 @@ struct LessonView: View {
             Text(lesson.subtitle)
                 .font(.title3)
                 .foregroundStyle(BlueMoorTheme.textSecondary)
+
+            LessonHeroImage(name: lesson.heroImageName ?? lesson.contentId)
+                .frame(maxWidth: .infinity)
+                .frame(height: 220)
+                .clipShape(RoundedRectangle(cornerRadius: BlueMoorTheme.cardCornerRadius))
+                .padding(.top, 8)
         }
     }
 

@@ -201,14 +201,20 @@
       .replace(/"/g, "&quot;");
   }
 
+  function heroUrl(lesson) {
+    if (lesson.heroImage) return lesson.heroImage;
+    return `images/${lesson.id}.jpg`;
+  }
+
   function lessonCard(lesson, extra = "") {
     const cat = lesson.category === "history" ? "history" : "cosmos";
     const label = cat === "history" ? "HISTORY" : "COSMOS";
     const fav = isFav(lesson.id) ? "★" : "☆";
     const tags = [lesson.era, lesson.region].filter(Boolean).join(" · ");
+    const bg = `background-image:url('${esc(heroUrl(lesson))}');`;
     return `
       <div class="card clickable" data-open="${esc(lesson.id)}">
-        <div class="card-hero ${cat}">
+        <div class="card-hero ${cat}" style="${bg}">
           <span>${label}</span>
           <button type="button" class="fav-btn" data-fav="${esc(lesson.id)}" aria-label="Favorite">${fav}</button>
         </div>
@@ -424,6 +430,9 @@
           ${lesson.region ? `<span class="tag">${esc(lesson.region)}</span>` : ""}
         </div>
         <div class="dim mt8">${esc(lesson.subtitle)}</div>
+        <div class="lesson-hero">
+          <img src="${esc(heroUrl(lesson))}" alt="" loading="lazy" onerror="this.parentElement.style.display='none'" />
+        </div>
         <div class="row wrap gap8 mt16">
           ${Object.values(window.BM_DEPTHS)
             .map(

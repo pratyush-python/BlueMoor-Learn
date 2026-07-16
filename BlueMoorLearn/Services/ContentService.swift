@@ -135,6 +135,7 @@ struct LessonDTO: Codable {
     let figures: [FigureDTO]
     let quiz: [QuizDTO]
     let heroImageName: String?
+    let heroImage: String?
 
     func toLesson() -> Lesson {
         Lesson(
@@ -169,7 +170,7 @@ struct LessonDTO: Codable {
                     explanation: $0.explanation
                 )
             },
-            heroImageName: heroImageName
+            heroImageName: heroImageName ?? id
         )
     }
 }

@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import AppKit
 
 struct TodayView: View {
     @Binding var selectedLesson: Lesson?
@@ -223,6 +224,30 @@ struct TodayView: View {
 }
 
 // Beautiful reusable card
+/// Loads a lesson hero from Resources/images/<name>.jpg
+struct LessonHeroImage: View {
+    let name: String
+
+    var body: some View {
+        if let nsImage = Self.load(name: name) {
+            Image(nsImage: nsImage)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+        }
+    }
+
+    static func load(name: String) -> NSImage? {
+        let candidates = [
+            Bundle.main.url(forResource: name, withExtension: "jpg", subdirectory: "images"),
+            Bundle.main.url(forResource: name, withExtension: "jpg"),
+        ].compactMap { $0 }
+        for url in candidates {
+            if let img = NSImage(contentsOf: url) { return img }
+        }
+        return nil
+    }
+}
+
 struct LessonCard: View {
     let lesson: Lesson
     var showCategory: Bool = false
@@ -231,20 +256,29 @@ struct LessonCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             ZStack(alignment: .bottomLeading) {
+                if let hero = LessonHeroImage.load(name: lesson.heroImageName ?? lesson.contentId) {
+                    Image(nsImage: hero)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(height: 140)
+                        .clipped()
+                } else {
+                    LinearGradient(
+                        colors: lesson.category == .history
+                            ? [Color(hex: "#3D2B1F"), BlueMoorTheme.background]
+                            : [Color(hex: "#1A2A4A"), BlueMoorTheme.background],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                    .frame(height: 140)
+                }
+
                 LinearGradient(
-                    colors: lesson.category == .history
-                        ? [Color(hex: "#3D2B1F"), BlueMoorTheme.background]
-                        : [Color(hex: "#1A2A4A"), BlueMoorTheme.background],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
+                    colors: [.clear, BlueMoorTheme.background.opacity(0.75)],
+                    startPoint: .top,
+                    endPoint: .bottom
                 )
                 .frame(height: 140)
-
-                Image(systemName: lesson.category.icon)
-                    .font(.system(size: 52, weight: .light))
-                    .foregroundStyle(lesson.category.accentColor.opacity(0.25))
-                    .padding(.leading, 24)
-                    .padding(.bottom, 20)
 
                 HStack {
                     if showCategory {

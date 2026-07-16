@@ -48,6 +48,7 @@ def main() -> None:
                 "overview": l["overview"],
                 "standard": l["standard"],
                 "deep": l["deep"],
+                "heroImage": l.get("heroImage") or (f"images/{l['id']}.jpg" if l.get("id") else None),
                 "timeline": l["timeline"],
                 "figures": [
                     {
@@ -95,6 +96,21 @@ def main() -> None:
         if facts_path.exists():
             (ANDROID_ASSETS / "daily_facts.json").write_bytes(facts_path.read_bytes())
             print(f"Wrote {ANDROID_ASSETS / 'daily_facts.json'}")
+
+    # Lesson hero images
+    img_src = CONTENT / "images"
+    if img_src.is_dir():
+        for dest in (
+            RES / "images",
+            WEB / "images",
+            ANDROID_ASSETS / "images" if ANDROID_ASSETS.parent.exists() else None,
+        ):
+            if dest is None:
+                continue
+            dest.mkdir(parents=True, exist_ok=True)
+            for img in img_src.glob("*.jpg"):
+                (dest / img.name).write_bytes(img.read_bytes())
+        print(f"Synced images from {img_src}")
 
     n = len(catalog["lessons"])
     print(f"Synced {n} lessons → Resources + web/content.js + Android assets")

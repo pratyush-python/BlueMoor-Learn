@@ -25,6 +25,19 @@
 		50A80D0339104F8F83E43E24 /* Assets.xcassets in Sources/Resources */ = {isa = PBXBuildFile; fileRef = 06E8105ADACA4FECA85B0267 /* Assets.xcassets */; };
 		C3D4E5F60718293A4B5C6D7E /* lessons.json in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60718293A4B5C /* lessons.json */; };
 		D4E5F60718293A4B5C6D7E8F /* daily_facts.json in Resources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F60718293A4B5C6D /* daily_facts.json */; };
+		1ACB69C1097520D7DACFFC23 /* ancient-egypt-old-kingdom.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8331C6942B6FB1D24EED845E /* ancient-egypt-old-kingdom.jpg */; };
+		B74A390E1A5182FCD50F573C /* ashoka-maurya.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D5811C2C7466CFD6D1AA3B6C /* ashoka-maurya.jpg */; };
+		1D35BBF49FDDC6E14ABCB373 /* black-holes.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C912F158F85D94B15E444511 /* black-holes.jpg */; };
+		1C07284D3B93C17B860C863E /* fall-constantinople.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6D1B67DAABA4EEDB4B61DA3D /* fall-constantinople.jpg */; };
+		82B6F5F9326F292DA22A67EE /* french-revolution.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E5B3D6CDB49E8D6607A739B4 /* french-revolution.jpg */; };
+		6636E5E52E7770AD6CF2E6C4 /* indus-valley.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 14387BCB579EE6B8AB5F57A8 /* indus-valley.jpg */; };
+		27E8D65E803F3106C0755F04 /* mansa-musa.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7E5E57D07A77ECBDF626D5F1 /* mansa-musa.jpg */; };
+		957E61F351C0AB0E8CE5B809 /* mughal-founding.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F54E42D18B28D60BD761AEC4 /* mughal-founding.jpg */; };
+		69EA5BCB9CCBD0469C64BD66 /* partition-1947.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CA80F148C13892230BCF4593 /* partition-1947.jpg */; };
+		BA11DF6E5A4C83A8BB9129C3 /* printing-press.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 410044D5662CB9358519A366 /* printing-press.jpg */; };
+		5F5EDDAD64B9B06075815FC4 /* roman-republic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C428DD6EA153DC74C1C25B29 /* roman-republic.jpg */; };
+		719F533DA7099546C75B1F5B /* silk-road.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2703F2304F930BE0F108199A /* silk-road.jpg */; };
+		5651A71E77ED0DE750709BCA /* solar-system.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9CE90C4033E84FCD0F57BA70 /* solar-system.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +62,19 @@
 		A8687BED21BE4D5D92C74BDC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A1B2C3D4E5F60718293A4B5C /* lessons.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lessons.json; sourceTree = "<group>"; };
 		B2C3D4E5F60718293A4B5C6D /* daily_facts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = daily_facts.json; sourceTree = "<group>"; };
+		8331C6942B6FB1D24EED845E /* ancient-egypt-old-kingdom.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ancient-egypt-old-kingdom.jpg; sourceTree = "<group>"; };
+		D5811C2C7466CFD6D1AA3B6C /* ashoka-maurya.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ashoka-maurya.jpg; sourceTree = "<group>"; };
+		C912F158F85D94B15E444511 /* black-holes.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = black-holes.jpg; sourceTree = "<group>"; };
+		6D1B67DAABA4EEDB4B61DA3D /* fall-constantinople.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fall-constantinople.jpg; sourceTree = "<group>"; };
+		E5B3D6CDB49E8D6607A739B4 /* french-revolution.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = french-revolution.jpg; sourceTree = "<group>"; };
+		14387BCB579EE6B8AB5F57A8 /* indus-valley.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = indus-valley.jpg; sourceTree = "<group>"; };
+		7E5E57D07A77ECBDF626D5F1 /* mansa-musa.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mansa-musa.jpg; sourceTree = "<group>"; };
+		F54E42D18B28D60BD761AEC4 /* mughal-founding.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mughal-founding.jpg; sourceTree = "<group>"; };
+		CA80F148C13892230BCF4593 /* partition-1947.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = partition-1947.jpg; sourceTree = "<group>"; };
+		410044D5662CB9358519A366 /* printing-press.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = printing-press.jpg; sourceTree = "<group>"; };
+		C428DD6EA153DC74C1C25B29 /* roman-republic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = roman-republic.jpg; sourceTree = "<group>"; };
+		2703F2304F930BE0F108199A /* silk-road.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = silk-road.jpg; sourceTree = "<group>"; };
+		9CE90C4033E84FCD0F57BA70 /* solar-system.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = solar-system.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -124,10 +150,31 @@
 		3668870501B64FEBAEF9C4B2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				BF80379708E899DA6B4CFDD9 /* images */,
 				A1B2C3D4E5F60718293A4B5C /* lessons.json */,
 				B2C3D4E5F60718293A4B5C6D /* daily_facts.json */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		BF80379708E899DA6B4CFDD9 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				8331C6942B6FB1D24EED845E /* ancient-egypt-old-kingdom.jpg */,
+				D5811C2C7466CFD6D1AA3B6C /* ashoka-maurya.jpg */,
+				C912F158F85D94B15E444511 /* black-holes.jpg */,
+				6D1B67DAABA4EEDB4B61DA3D /* fall-constantinople.jpg */,
+				E5B3D6CDB49E8D6607A739B4 /* french-revolution.jpg */,
+				14387BCB579EE6B8AB5F57A8 /* indus-valley.jpg */,
+				7E5E57D07A77ECBDF626D5F1 /* mansa-musa.jpg */,
+				F54E42D18B28D60BD761AEC4 /* mughal-founding.jpg */,
+				CA80F148C13892230BCF4593 /* partition-1947.jpg */,
+				410044D5662CB9358519A366 /* printing-press.jpg */,
+				C428DD6EA153DC74C1C25B29 /* roman-republic.jpg */,
+				2703F2304F930BE0F108199A /* silk-road.jpg */,
+				9CE90C4033E84FCD0F57BA70 /* solar-system.jpg */,
+			);
+			path = images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -225,6 +272,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				50A80D0339104F8F83E43E24 /* Assets.xcassets in Resources */,
+				1ACB69C1097520D7DACFFC23 /* ancient-egypt-old-kingdom.jpg in Resources */,
+				B74A390E1A5182FCD50F573C /* ashoka-maurya.jpg in Resources */,
+				1D35BBF49FDDC6E14ABCB373 /* black-holes.jpg in Resources */,
+				1C07284D3B93C17B860C863E /* fall-constantinople.jpg in Resources */,
+				82B6F5F9326F292DA22A67EE /* french-revolution.jpg in Resources */,
+				6636E5E52E7770AD6CF2E6C4 /* indus-valley.jpg in Resources */,
+				27E8D65E803F3106C0755F04 /* mansa-musa.jpg in Resources */,
+				957E61F351C0AB0E8CE5B809 /* mughal-founding.jpg in Resources */,
+				69EA5BCB9CCBD0469C64BD66 /* partition-1947.jpg in Resources */,
+				BA11DF6E5A4C83A8BB9129C3 /* printing-press.jpg in Resources */,
+				5F5EDDAD64B9B06075815FC4 /* roman-republic.jpg in Resources */,
+				719F533DA7099546C75B1F5B /* silk-road.jpg in Resources */,
+				5651A71E77ED0DE750709BCA /* solar-system.jpg in Resources */,
 				C3D4E5F60718293A4B5C6D7E /* lessons.json in Resources */,
 				D4E5F60718293A4B5C6D7E8F /* daily_facts.json in Resources */,
 			);

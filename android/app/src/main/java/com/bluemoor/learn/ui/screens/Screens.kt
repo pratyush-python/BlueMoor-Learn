@@ -1,5 +1,7 @@
 package com.bluemoor.learn.ui.screens
 
+import android.graphics.BitmapFactory
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -8,11 +10,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -51,6 +57,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+// remember already imported
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -349,6 +356,25 @@ private fun StatCard(title: String, value: String, color: Color) {
 }
 
 @Composable
+fun AssetHeroImage(path: String?, modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+    val bitmap = remember(path) {
+        if (path.isNullOrBlank()) null
+        else runCatching {
+            context.assets.open(path).use { BitmapFactory.decodeStream(it) }
+        }.getOrNull()
+    }
+    if (bitmap != null) {
+        Image(
+            bitmap = bitmap.asImageBitmap(),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = modifier,
+        )
+    }
+}
+
+@Composable
 fun LessonCard(
     lesson: Lesson,
     showCategory: Boolean = false,
@@ -366,12 +392,25 @@ fun LessonCard(
             Box(
                 Modifier
                     .fillMaxWidth()
-                    .height(88.dp)
+                    .height(120.dp)
                     .background(
                         Brush.horizontalGradient(listOf(accent.copy(alpha = 0.35f), Background)),
                     ),
                 contentAlignment = Alignment.BottomStart,
             ) {
+                AssetHeroImage(
+                    path = lesson.heroImage ?: "images/${lesson.id}.jpg",
+                    modifier = Modifier.fillMaxSize(),
+                )
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .background(
+                            Brush.verticalGradient(
+                                listOf(Color.Transparent, Background.copy(alpha = 0.75f)),
+                            ),
+                        ),
+                )
                 if (showCategory) {
                     Text(
                         lesson.category.label.uppercase(),
@@ -446,6 +485,19 @@ fun LessonDetailScreen(
         ) {
             Text(lesson.eraOrTopic, color = TextSecondary)
             Text(lesson.subtitle, color = TextTertiary, modifier = Modifier.padding(top = 4.dp))
+            Spacer(modifier = Modifier.height(12.dp))
+            Card(
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(containerColor = SurfaceElevated),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(16f / 9f),
+            ) {
+                AssetHeroImage(
+                    path = lesson.heroImage ?: "images/${lesson.id}.jpg",
+                    modifier = Modifier.fillMaxSize(),
+                )
+            }
             Spacer(modifier = Modifier.height(16.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 LessonDepth.entries.forEach { d ->

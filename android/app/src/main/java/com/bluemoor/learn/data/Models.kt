@@ -47,6 +47,8 @@ data class Lesson(
     val quiz: List<QuizQuestion>,
     val era: String? = null,
     val region: String? = null,
+    /** Asset path under assets/, e.g. images/roman-republic.jpg */
+    val heroImage: String? = null,
 ) {
     fun contentFor(depth: LessonDepth): String = when (depth) {
         LessonDepth.OVERVIEW -> overviewContent

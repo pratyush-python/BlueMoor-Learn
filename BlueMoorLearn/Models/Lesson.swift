@@ -76,7 +76,7 @@ struct Lesson: Identifiable, Hashable {
     let keyFigures: [KeyFigure]
     let quiz: [QuizQuestion]
     
-    // Asset name for hero image (optional for v1 - we use beautiful SF Symbol + gradient instead)
+    /// Filename stem in Resources/images (e.g. `roman-republic` → images/roman-republic.jpg)
     let heroImageName: String?
     
     // Computed

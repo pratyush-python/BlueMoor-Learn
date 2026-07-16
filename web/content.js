@@ -12,6 +12,7 @@ window.BM_LESSONS = [
     "overview": "In 509 BC, the Roman people overthrew their last king and established a republic. This new system of government would shape Western civilization for centuries.\n\nThe Republic was built on the principle that power should be shared and checked, not concentrated in one ruler.",
     "standard": "The Roman Republic was founded after the overthrow of King Tarquinius Superbus. It introduced a complex system of elected magistrates, most notably two consuls who shared executive power and could veto each other.\n\nThe Senate, composed of Rome's wealthiest and most influential citizens, advised the consuls and controlled state finances. Over 400+ years, Rome expanded from a small city-state to the dominant Mediterranean power.",
     "deep": "The Roman Republic's constitution was never written in a single document. It evolved through tradition (mos maiorum), conflict between patricians and plebeians, and pragmatic responses to crises.\n\nKey institutions included the Centuriate Assembly, Tribal Assembly, Plebeian Council, and temporary dictators. The system's checks and balances became a weakness as ambitious generals accumulated power the old institutions could no longer contain.",
+    "heroImage": "images/roman-republic.jpg",
     "timeline": [
       {
         "year": "509 BC",
@@ -96,6 +97,7 @@ window.BM_LESSONS = [
     "overview": "The Old Kingdom represents the golden age of pyramid building and the consolidation of pharaonic power in Egypt.",
     "standard": "During the Old Kingdom, Egypt saw the construction of the Great Pyramids of Giza under pharaohs Khufu, Khafre, and Menkaure. The period established cultural and religious foundations that defined ancient Egypt for millennia.",
     "deep": "Centralized administration, bureaucracy, and religious ideology of the pharaoh as living god enabled monumental construction. Collapse after Pepi II's long reign led into the First Intermediate Period.",
+    "heroImage": "images/ancient-egypt-old-kingdom.jpg",
     "timeline": [
       {
         "year": "c. 2686 BC",
@@ -156,6 +158,7 @@ window.BM_LESSONS = [
     "overview": "Along the Indus and its tributaries rose one of the world's earliest urban civilizations — contemporary with Egypt and Mesopotamia, yet distinct in its orderly cities and almost invisible kings.",
     "standard": "Major sites include Harappa and Mohenjo-daro: grid streets, baked-brick houses, covered drains, and the Great Bath. Trade stretched to Mesopotamia. Thousands of steatite seals show animals and a still-undeciphered script.\n\nUnlike Egypt's pharaohs or Mesopotamia's kings, Indus society left few clear royal monuments — leading scholars to debate how power was organized.",
     "deep": "Urban planning suggests strong civic norms: standardized brick ratios, water management, and craft specialization (beads, metallurgy, pottery). The civilization declined after c. 1900 BC — climate shifts, river course changes, and trade disruption are leading theories.\n\nThe undeciphered script (short inscriptions) remains one of archaeology's great puzzles. Continuities with later South Asian culture are debated carefully; avoid simplistic 'direct lineage' claims.",
+    "heroImage": "images/indus-valley.jpg",
     "timeline": [
       {
         "year": "c. 3300 BC",
@@ -230,6 +233,7 @@ window.BM_LESSONS = [
     "overview": "The Mauryan Empire was the first to unite most of the Indian subcontinent under one power. Emperor Ashoka's reign became legendary — not only for scale, but for a public turn toward ethics after war.",
     "standard": "Chandragupta Maurya founded the empire with help of Chanakya (Kautilya). Bindusara expanded it; Ashoka's conquest of Kalinga (c. 261 BC) was devastating. Afterward, Ashoka promoted dhamma — moral conduct, religious tolerance, and welfare — through rock and pillar edicts across the realm.\n\nThese edicts are among the earliest extensive royal inscriptions in India and a primary source for historians.",
     "deep": "The Arthashastra tradition (statecraft, spies, economics) illuminates Mauryan administration even if exact dating of texts is debated. Ashoka's Buddhism was personal and public, but dhamma was broader than a single sect.\n\nAfter Ashoka, the empire weakened; the last Mauryan ruler was overthrown c. 185 BC. Memory of Ashoka was revived in modern India as a symbol of ethical power (Lion Capital of Sarnath).",
+    "heroImage": "images/ashoka-maurya.jpg",
     "timeline": [
       {
         "year": "c. 322 BC",
@@ -304,6 +308,7 @@ window.BM_LESSONS = [
     "overview": "The Silk Roads were overlapping land and sea routes linking China, Central Asia, India, Persia, and the Mediterranean. Silk was famous — but religions, technologies, diseases, and stories traveled too.",
     "standard": "Han China and empires to the west incentivized long-distance exchange. Caravanserais, oasis cities (Samarkand, Kashgar), and maritime routes via the Indian Ocean formed a network, not a highway.\n\nBuddhism spread into Central and East Asia along these corridors. Later, Islam, paper-making knowledge, and countless goods moved in both directions.",
     "deep": "The term 'Silk Road' is modern (coined in the 19th century). Historians prefer 'Silk Roads' to stress plurality. Political stability under empires (Han, Kushan, Abbasid, Mongol) often boosted traffic; fragmentation raised costs and dangers.\n\nThe Black Death's westward movement in the 14th century shows the dark side of connectivity. Maritime routes eventually rivaled overland ones in the age of gunpowder empires and European oceanic expansion.",
+    "heroImage": "images/silk-road.jpg",
     "timeline": [
       {
         "year": "2nd c. BC",
@@ -378,6 +383,7 @@ window.BM_LESSONS = [
     "overview": "In the 14th century, Mansa Musa of Mali made a pilgrimage to Mecca so lavish that chroniclers said it disrupted gold prices in Cairo. Behind the legend stood a powerful West African empire built on trade and learning.",
     "standard": "Mali controlled key trans-Saharan routes in gold and salt. Cities like Timbuktu and Djenné became centers of commerce and Islamic scholarship. Musa's hajj (c. 1324) displayed wealth and piety and put Mali firmly on Mediterranean mental maps.\n\nArabic sources and later oral traditions (epics of Sundiata) help reconstruct this world — each with strengths and biases.",
     "deep": "West African statecraft combined military power, taxation of trade, and Islamic institutions with local traditions. Manuscript cultures of Timbuktu show sophisticated law, astronomy, and theology.\n\nEuropean mapmakers later marked 'Rex Meli' and gold fields, shaping myths of African wealth. Modern historians stress African agency — Mali was not a periphery but a center in its own networks.",
+    "heroImage": "images/mansa-musa.jpg",
     "timeline": [
       {
         "year": "c. 1235",
@@ -452,6 +458,7 @@ window.BM_LESSONS = [
     "overview": "When Ottoman forces under Mehmed II took Constantinople, the Byzantine Empire ended. The event shocked Christendom, thrilled the Ottoman world, and became a hinge between medieval and early modern eras.",
     "standard": "Constantinople's Theodosian Walls had defied attackers for centuries. Mehmed II brought massive cannons, a large army and fleet, and relentless engineering — including hauling ships overland into the Golden Horn.\n\nAfter the city fell, it became the Ottoman capital (Istanbul). Hagia Sophia was converted into a mosque. Greek scholars' westward movement is often linked to Renaissance currents (one factor among many).",
     "deep": "Byzantium had been shrinking for generations; 1453 was climax, not bolt from the blue. Ottoman statecraft blended Turkic, Persian, and Islamic imperial traditions with pragmatic rule over diverse peoples.\n\nIn European memory, '1453' became a symbol of civilizational shift. Historians caution against single-date myths: printing, Atlantic voyages, and gunpowder empires all reshaped the 15th–16th centuries together.",
+    "heroImage": "images/fall-constantinople.jpg",
     "timeline": [
       {
         "year": "1204",
@@ -526,6 +533,7 @@ window.BM_LESSONS = [
     "overview": "In 1526, Babur defeated Ibrahim Lodi at Panipat and founded the Mughal Empire. What began as a conquest state became one of the world's great early modern empires — administration, culture, and monumental architecture.",
     "standard": "Babur, a Timurid descendant from Central Asia, used cavalry, tulughma tactics, and gunpowder field fortifications. His memoir, the Baburnama, is a vivid primary source — frank about nature, politics, and homesickness.\n\nHumayun lost and regained the throne; Akbar later consolidated a durable imperial system. The Mughals ruled a vast, multi-religious society through mansabdari ranks, revenue systems, and court culture.",
     "deep": "Calling the Mughals simply 'foreign invaders' oversimplifies centuries of Indianization, alliance-building, and cultural synthesis (Persianate court culture meeting South Asian society).\n\nMilitary success mattered, but longevity required bureaucracy, legitimacy, and negotiation with local elites (Rajput alliances under Akbar are classic examples). Architecture from Humayun's Tomb to the Taj Mahal (later) shows evolving imperial style.",
+    "heroImage": "images/mughal-founding.jpg",
     "timeline": [
       {
         "year": "1526",
@@ -600,6 +608,7 @@ window.BM_LESSONS = [
     "overview": "In a decade, France went from absolute monarchy toward republic, empire, and a language of rights that still shapes global politics. The Revolution was inspiring and terrifying — often at the same time.",
     "standard": "Fiscal crisis, Enlightenment ideas, and social inequality set the stage. 1789 brought the Estates-General, National Assembly, Bastille, and Declaration of the Rights of Man and of the Citizen.\n\nRadicalization produced republic, war, and the Terror under Robespierre. The Directory gave way to Napoleon Bonaparte's rise (1799). Outcomes included legal reforms, nationalism, and long wars across Europe.",
     "deep": "Historians debate causes (structure vs contingency) and character (liberal vs social revolution). Women, enslaved people in the colonies, and peasants experienced the Revolution differently than Parisian politicians.\n\nThe Haitian Revolution intertwined with French events — forcing questions about universal rights and slavery. Revolutionary calendars, metric impulses, and de-Christianization show how deeply reformers tried to redesign daily life.",
+    "heroImage": "images/french-revolution.jpg",
     "timeline": [
       {
         "year": "1789",
@@ -674,6 +683,7 @@ window.BM_LESSONS = [
     "overview": "In August 1947, British India was partitioned into India and Pakistan. Freedom arrived with mass migration, communal violence, and unresolved questions that still shape the subcontinent.",
     "standard": "Long-term communal politics, colonial policies, wartime strains, and failed negotiations preceded Partition. The Mountbatten Plan accelerated transfer of power. The Radcliffe Line drew borders through Punjab and Bengal with devastating speed.\n\nMillions crossed new frontiers; hundreds of thousands died. Kashmir and other princely-state issues became enduring conflicts. Oral histories and literature (Khushwant Singh, Saadat Hasan Manto, and many others) preserve the human texture.",
     "deep": "No single cause explains Partition. Historians examine the two-nation theory, Congress-Muslim League rivalry, British exit strategies, and local breakdowns of order.\n\nStudying 1947 requires care: avoid communal blame games; center evidence, multiple perspectives, and the experiences of women, refugees, and minorities. Memory politics continue in textbooks and public debate across India, Pakistan, and Bangladesh (1971).",
+    "heroImage": "images/partition-1947.jpg",
     "timeline": [
       {
         "year": "1940",
@@ -748,6 +758,7 @@ window.BM_LESSONS = [
     "overview": "When moveable-type printing scaled in Europe after Gutenberg, books became faster and cheaper to multiply. Ideas could outrun censors — and start arguments that remade religion, science, and politics.",
     "standard": "Woodblock printing existed earlier in East Asia; Korea developed moveable metal type before Gutenberg. Europe's mid-15th-century print boom still transformed scale: Bibles, indulgences, maps, and later newspapers.\n\nThe Reformation spread through pamphlets. Scientific diagrams and correspondence networks accelerated knowledge-sharing. Literacy and vernacular languages gained ground over centuries.",
     "deep": "Print did not automatically create modernity — readers, markets, states, and religions shaped its use. Authorities used print for propaganda even as dissidents used it for resistance.\n\nComparing Eurasian printing histories avoids Eurocentrism: China, Korea, and the Islamic world's manuscript cultures had different incentives and trajectories. The 'print revolution' is best seen as a global, uneven story.",
+    "heroImage": "images/printing-press.jpg",
     "timeline": [
       {
         "year": "Before 800",
@@ -820,6 +831,7 @@ window.BM_LESSONS = [
     "overview": "Our solar system formed about 4.6 billion years ago from a collapsing cloud of gas and dust. At its center burns the Sun — holding everything in its gravitational embrace.",
     "standard": "Inner terrestrial planets (Mercury, Venus, Earth, Mars) and outer gas/ice giants (Jupiter, Saturn, Uranus, Neptune). The asteroid belt lies between Mars and Jupiter; beyond Neptune, the Kuiper Belt and Oort Cloud.",
     "deep": "Formed from a protoplanetary disk. Close to the Sun only rock and metal condensed; farther out, ices and gases formed giants. Processes: accretion, differentiation, Late Heavy Bombardment, giant planet migration (Nice model).",
+    "heroImage": "images/solar-system.jpg",
     "timeline": [
       {
         "year": "~4.6 bya",
@@ -894,6 +906,7 @@ window.BM_LESSONS = [
     "overview": "Black holes are regions of spacetime where gravity is so strong that nothing, not even light, can escape — extreme predictions of Einstein's general relativity.",
     "standard": "Stellar-mass black holes form when massive stars collapse. Supermassive black holes sit at the centers of most galaxies, including the Milky Way.",
     "deep": "The Event Horizon Telescope imaged M87* (2019) and Sagittarius A* (2022). Hawking radiation, the information paradox, and singularities remain active frontiers.",
+    "heroImage": "images/black-holes.jpg",
     "timeline": [
       {
         "year": "1915",

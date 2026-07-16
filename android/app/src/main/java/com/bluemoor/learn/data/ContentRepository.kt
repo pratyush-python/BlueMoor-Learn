@@ -123,6 +123,9 @@ object ContentRepository {
             quiz = parseQuiz(o.optJSONArray("quiz")),
             era = o.optString("era").ifBlank { null },
             region = o.optString("region").ifBlank { null },
+            heroImage = o.optString("heroImage").ifBlank {
+                "images/${o.getString("id")}.jpg"
+            },
         )
     }
 
